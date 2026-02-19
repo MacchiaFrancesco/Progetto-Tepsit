@@ -10,42 +10,13 @@ import java.util.Scanner;
 
 public class Client {
 
-	//private Socket socket;
-	//private BufferedReader bufferedReader;
-	//private BufferedWriter bufferedWriter;
 	private CodaCircolare codaRicezione;
 	private CodaCircolare codaTrasmissione;
 	private String username;
 	
 	public Client (Socket socket, String username) {
-		//try {
-			
-			//this.socket = socket;
-			//this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			//this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			//this.username = username;
-			
-		//}catch (IOException e) {
-		//	closeEverything(socket, bufferedReader, bufferedWriter);
-		//}
+	
 	}
-	
-	//public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
-		//try {
-		//	if (bufferedReader != null) { //evitare errore Null Pointer
-		//		bufferedReader.close();
-		//	}
-		//	if(bufferedWriter != null) {
-		//		bufferedWriter.close();
-		//	}
-		//	if(socket != null) {
-		//		socket.close();
-		//	}
-		//} catch (IOException e){
-		//	e.printStackTrace();
-		//}
-	//}
-	
 	public void assortimentoMessaggiTrasmissione(int idMsg) throws InterruptedException {
 		String messaggio = null;
 		//tutti i vari metodi per ogni messaggio ritornano una stringa
