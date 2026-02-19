@@ -29,7 +29,7 @@ public class Server {
 	}
 	
 	public void closeServerSocket() {
-		//se la socket e' null e proviamo a chiuderla riceviamo un errore Null Pointer
+		//se la socket e' null e proviamo a chiuderla riceviamo un errore Null Pointer quindi lo gestiamo
 		try {
 			if (serverSocket != null) {
 				serverSocket.close();

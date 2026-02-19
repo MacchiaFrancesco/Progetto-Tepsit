@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable{
 	}
 	
 	public void broadcastMessage(String messageToSend) {
-		for (ClientHandler clientHandler : clientHandlers) {
+		for (ClientHandler clientHandler : clientHandlers) { //scorre tutti i client
 			try {
 				if (!clientHandler.clientUsername.equals(clientUsername)) {
 					clientHandler.bufferedWriter.write(messageToSend);

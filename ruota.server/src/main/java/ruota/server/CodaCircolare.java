@@ -2,7 +2,7 @@ package ruota.server;
 
 //import ruota.server.Messaggi.ServerMessage;
 
-//coda: socket -> coda -> client
+//coda: server-> coda -> socket,  socket -> coda -> server
 public class CodaCircolare {
 	
 	private final String[] buffer;
@@ -25,7 +25,7 @@ public class CodaCircolare {
 	    notifyAll();
 	}
 	
-	//thread che invia al client
+	//thread che invia al server
 	public synchronized String invio() throws InterruptedException {
 	    while (count == 0) { //guardia
 	        wait();
