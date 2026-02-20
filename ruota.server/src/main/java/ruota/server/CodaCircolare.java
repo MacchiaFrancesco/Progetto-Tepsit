@@ -15,7 +15,7 @@ public class CodaCircolare {
 	}
 	
 	//thread che legge dal socket
-	public synchronized void preleva(String messaggio) throws InterruptedException {
+	public synchronized void inserisci(String messaggio) throws InterruptedException {
 	    while (count == buffer.length) { //guardia
 	        wait();
 	    }
@@ -26,7 +26,7 @@ public class CodaCircolare {
 	}
 	
 	//thread che invia al server
-	public synchronized String invio() throws InterruptedException {
+	public synchronized String preleva() throws InterruptedException {
 	    while (count == 0) { //guardia
 	        wait();
 	    }

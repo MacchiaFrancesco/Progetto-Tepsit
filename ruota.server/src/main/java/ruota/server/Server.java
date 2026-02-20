@@ -13,13 +13,24 @@ public class Server {
 	}
 	
 	public void startServer() {
+		System.out.println("Server avviato.");
+		System.out.println("Server in ascolto su "+ serverSocket.getLocalSocketAddress());
+		System.out.println("Server in ascolto su "+ serverSocket.getInetAddress()+ ":" + serverSocket.getLocalPort());
+		CodaCircolare codaToClient = new CodaCircolare(10);
+		CodaCircolare codaFromClient = new CodaCircolare(10);
+		
 		try {
 			while(!serverSocket.isClosed()) { //server rimane attivo finche' la socket non si chiude
 				
 				Socket socket = serverSocket.accept(); //se client si connette ritorna un oggetto Socket
 				System.out.println("Un nuovo giocatore si e' connesso!");
 				
-				ClientHandler clientHandler = new ClientHandler(socket);
+				Trasmissione trasmissione = new Trasmissione(socket, codaToClient);
+				Ricezione ricezione = new Ricezione(socket, codaFromClient);
+				Thread tr = new Thread(trasmissione, "Trasmissione");
+				tr.start();
+				Thread ri = new Thread(ricezione, "Ricezione");
+				ClientHandler clientHandler = new ClientHandler(socket, codaToClient, codaFromClient);
 				Thread thread = new Thread(clientHandler);
 				thread.start();
 			}
@@ -41,7 +52,7 @@ public class Server {
 	
 	public static void main(String[] args) throws IOException{
 		
-		ServerSocket serverSocket = new ServerSocket(1234);
+		ServerSocket serverSocket = new ServerSocket(5656);
 		Server server = new Server(serverSocket);
 		server.startServer();
 	}

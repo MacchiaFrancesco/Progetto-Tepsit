@@ -42,6 +42,8 @@ public class ServerParser {
                 InputHandler.controlloConnessione(Long.parseLong(ps[1]));
                 break;
 
+            case 999:
+            	InputHandler.test();
             default:
                 System.out.println("Messaggio non riconosciuto");
         }

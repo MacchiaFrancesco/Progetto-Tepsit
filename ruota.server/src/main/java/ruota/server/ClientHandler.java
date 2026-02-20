@@ -13,21 +13,23 @@ public class ClientHandler implements Runnable{
 	
 	public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>(); //raggruppa tutti i client cosi' possiamo inviare messaggi a chi e' necessario, statico cosi' appartiene alla classe e non viene istanziato per ogni oggetto
 	private Socket socket;
-	private BufferedReader bufferedReader;
-	private BufferedWriter bufferedWriter;
+	//private BufferedReader bufferedReader;
+	//private BufferedWriter bufferedWriter;
 	private String clientUsername;
-	private int idClient; //valorizzato dinamicamente in base a se il client crea o si unisce ad una lobby
+	private int idClient; //valorizzato in base a se il client crea o si unisce ad una lobby
+	private CodaCircolare codaToClient;
+	private CodaCircolare codaFromClient;
 	
-	public ClientHandler(Socket socket) {
+	public ClientHandler(Socket socket, CodaCircolare codaToClient, CodaCircolare codaFromClient) {
 		try {
 			this.socket = socket;
-			this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			this.clientUsername = bufferedReader.readLine();
+			//this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			//this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			this.clientUsername = codaFromClient.preleva();
 			clientHandlers.add(this);
 			broadcastMessage("Server: " + clientUsername + " si e' unito alla partita!");
-		} catch (IOException e) {
-			closeEverything(socket, bufferedReader, bufferedWriter);
+		} catch (InterruptedException e) {
+			closeEverything(socket);
 		}
 	}
 	
@@ -37,11 +39,12 @@ public class ClientHandler implements Runnable{
 		
 		while (socket.isConnected()) {
 			try { // che palle ste try catch rendono illeggibile il codice
-				messageFromClient = bufferedReader.readLine();
-				broadcastMessage(messageFromClient);
+				messageFromClient = codaFromClient.preleva();
 				
-			} catch (IOException e) {
-				closeEverything(socket, bufferedReader, bufferedWriter);
+				broadcastMessage("Negro");
+				
+			} catch (InterruptedException e) {
+				closeEverything(socket);
 				break; //senno loop infinito di closeEverything()
 			}		
 		}
@@ -51,12 +54,12 @@ public class ClientHandler implements Runnable{
 		for (ClientHandler clientHandler : clientHandlers) { //scorre tutti i client
 			try {
 				if (!clientHandler.clientUsername.equals(clientUsername)) {
-					clientHandler.bufferedWriter.write(messageToSend);
-					clientHandler.bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
-					clientHandler.bufferedWriter.flush();
+					clientHandler.codaToClient.inserisci(messageToSend);
+//					clientHandler.bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
+//					clientHandler.bufferedWriter.flush();
 				}
-			} catch (IOException e) {
-				closeEverything(socket, bufferedReader, bufferedWriter);
+			} catch (InterruptedException e) {
+				closeEverything(socket);
 			}
 		}
 	}
@@ -66,15 +69,15 @@ public class ClientHandler implements Runnable{
 		broadcastMessage("Server: " + clientUsername + " si e' disconnesso dalla partita");
 	}
 	
-	public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+	public void closeEverything(Socket socket) {
 		removeClientHandler();
 		try {
-			if (bufferedReader != null) { //evitare errore Null Pointer
-				bufferedReader.close();
-			}
-			if(bufferedWriter != null) {
-				bufferedWriter.close();
-			}
+//			if (bufferedReader != null) { //evitare errore Null Pointer
+//				bufferedReader.close();
+//			}
+//			if(bufferedWriter != null) {
+//				bufferedWriter.close();
+//			}
 			if(socket != null) {
 				socket.close();
 			}

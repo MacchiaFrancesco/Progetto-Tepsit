@@ -28,4 +28,9 @@ public class InputHandler {
 
 	public static void controlloConnessione(long timestamp) {
 	}
+	
+	public static void test() {
+		System.out.println("ciao");
+	}
+	
 }
