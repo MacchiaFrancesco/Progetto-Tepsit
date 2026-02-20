@@ -1,42 +1,43 @@
 package ruota.client;
 
-import java.io.BufferedWriter;
+//import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
+//import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Trasmissione implements Runnable{
 	private CodaCircolare coda;
-	private BufferedWriter bufferedWriter;
+//	private BufferedWriter bufferedWriter;
 	private Socket socket;
+	PrintWriter writer;
 	
-	public Trasmissione(Socket socket, BufferedWriter bufferedWriter, CodaCircolare coda) {
+	public Trasmissione(Socket socket, CodaCircolare coda) {
 		try {
 			this.socket = socket;
 			this.coda = coda;
-			this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));	
+			OutputStream out = socket.getOutputStream(); // Ottiene l'output stream per inviare dati
+			writer = new PrintWriter(out, true);  // Usa un PrintWriter per inviare RIGHE di testo al server
 		}catch (IOException e) {
-			closeEverything(socket, bufferedWriter);
+			closeEverything(socket);
 		}
 	}
 
 	public void inviaSuSocket() throws InterruptedException{
 		String messaggio = coda.preleva();
-		try {
-			bufferedWriter.write(messaggio);
-			bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
-			bufferedWriter.flush();
-		}catch (IOException e) {
-			closeEverything(socket, bufferedWriter);
-		}
+		writer.println(messaggio);
+//			bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
+//			bufferedWriter.flush();
 		
 	}
 	
-	public void closeEverything(Socket socket, BufferedWriter bufferedWriter) {
+	public void closeEverything(Socket socket) {
 		try {
-			if(bufferedWriter != null) {
-				bufferedWriter.close();
-			}
+//			if(bufferedWriter != null) {
+//				System.out.println("buffer chiuso");
+//				bufferedWriter.close();
+//			}
 			if(socket != null) {
 				socket.close();
 			}

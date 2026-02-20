@@ -2,34 +2,36 @@ package ruota.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Ricezione {
+public class Ricezione implements Runnable{
 
-	public class Trasmissione implements Runnable{
 		private CodaCircolare coda;
-		private BufferedReader bufferedReader;
+		private BufferedReader reader;
 		private Socket socket;
 		
-		public Trasmissione(Socket socket, BufferedReader bufferedReader, CodaCircolare coda) {
+		public Ricezione(Socket socket, CodaCircolare coda) {
 			try {
 				this.socket = socket;
 				this.coda = coda;
-				this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
+				InputStream in = socket.getInputStream(); // Ottiene l'input stream per ricever dati
+		                 
+		        this.reader = new BufferedReader(new InputStreamReader(in)); // Usa un BufferedReader per poter leggere RIGHE di testo  
 			}catch (IOException e) {
-				closeEverything(socket, bufferedReader);
+				closeEverything(socket, reader);
 			}
 		}
 
 		public void leggiDaSocket() throws InterruptedException{
 			
 			try {
-				String messaggio = bufferedReader.readLine();
+				String messaggio = reader.readLine();
 				coda.inserisci(messaggio);
 				
 			}catch (IOException e) {
-				closeEverything(socket, bufferedReader);
+				closeEverything(socket, reader);
 			}
 			
 		}
@@ -61,4 +63,4 @@ public class Ricezione {
 			}
 		}
 	}
-}
+
