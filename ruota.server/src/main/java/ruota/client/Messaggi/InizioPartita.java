@@ -8,4 +8,8 @@ public class InizioPartita {
 		this.nTurni=nTurni;
 	}
 
+	public String tostring() {
+		String messaggio = id+";"+nTurni;
+		return messaggio;
+	}
 }

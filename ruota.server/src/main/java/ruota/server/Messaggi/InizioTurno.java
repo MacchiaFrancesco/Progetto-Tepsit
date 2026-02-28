@@ -10,4 +10,8 @@ public class InizioTurno implements ServerMessage{
 		this.frase=frase;
 	}
 
+	public String tostring() {
+		String messaggio = id+";"+ServerMessage.aggAsterischi(frase, 52)+";"+ServerMessage.aggAsterischi(contesto, 30);
+		return messaggio;
+	}
 }
