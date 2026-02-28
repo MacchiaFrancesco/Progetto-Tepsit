@@ -1,47 +1,80 @@
 package ruota.server;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable{
-	// l'arraylist client handler va wrappata in una arraylist di int (sarebbero gli id delle lobby), l'id viene generato per ogni nuova 'cella' e mandata al primo giocatore cosi la invia agli altri (una matrice)
-	
-	public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>(); //raggruppa tutti i client cosi' possiamo inviare messaggi a chi e' necessario, statico cosi' appartiene alla classe e non viene istanziato per ogni oggetto
+	public static ArrayList<ArrayList<ClientHandler>> clientHandlers = new ArrayList<>(); //Una struttura globale condivisa che contiene tutte le lobby del server, ognuna con i propri client. È il “database temporaneo” dei giocatori attivi.
 	private Socket socket;
-	//private BufferedReader bufferedReader;
-	//private BufferedWriter bufferedWriter;
+	static final Object lock = new Object(); //serve altrimenti non è thread-safe
 	private String clientUsername;
 	private int idClient; //valorizzato in base a se il client crea o si unisce ad una lobby
 	private CodaCircolare codaToClient;
 	private CodaCircolare codaFromClient;
+	//private BufferedReader bufferedReader;
+	//private BufferedWriter bufferedWriter;
 	
 	public ClientHandler(Socket socket, CodaCircolare codaToClient, CodaCircolare codaFromClient) {
 		try {
-			this.socket = socket;
 			//this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			//this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			this.socket = socket;
+            this.codaToClient = codaToClient;
+            this.codaFromClient = codaFromClient;
 			this.clientUsername = codaFromClient.preleva();
-			clientHandlers.add(this);
+			synchronized(lock) {
+			// PER ORA: ogni nuovo client crea una nuova lobby
+            ArrayList<ClientHandler> nuovaLobby = new ArrayList<>();
+            nuovaLobby.add(this);
+            clientHandlers.add(nuovaLobby);
 			broadcastMessage("Server: " + clientUsername + " si e' unito alla partita!");
+
+            idClient = clientHandlers.size() - 1; // id lobby
+			}
+            // mando l'id al primo giocatore
+            codaToClient.inserisci("ID_LOBBY " + idClient);
 		} catch (InterruptedException e) {
 			closeEverything(socket);
 		}
 	}
 	
+	public Socket getSocket() {
+	    return socket;
+	}
+
+	public CodaCircolare getCodaToClient() {
+	    return codaToClient;
+	}
+
+	public int getIdClient() {
+	    return idClient;
+	}
+	
+	// Metodo per far entrare un client in una lobby esistente
+    public void uniscitiLobby(int lobbyId) throws InterruptedException {
+        synchronized(lock) {
+            if (lobbyId >= 0 && lobbyId < clientHandlers.size()) {
+                clientHandlers.get(lobbyId).add(this);
+                idClient = lobbyId;
+
+                broadcastMessage("Server: " + clientUsername + " si è unito alla lobby " + idClient);
+            } else {
+                codaToClient.inserisci("Lobby non esistente");
+            }
+        }
+    }
+    
+    
 	@Override
 	public void run() { //qua andrebbe messo il message parser, se il giocatore invia messaggio di creare una lobby crea un nuovo 'array', altrimenti se si vuole aggiungere ad una lobby lo aggiunge ad un array gia' esistente (probabilmente conviene fare una matrice di array list) a quel punto se il giocatore 1 di quella lobby invia il messaggio di inizio il server prende tutti i giocatori di quell'array e li invia alla classe Partita. ora per provare metto che c'e' una sola lobby, poi implementiamo. 
 		String messageFromClient;
 		
 		while (socket.isConnected()) {
-			try { // che palle ste try catch rendono illeggibile il codice
+			try { 
 				messageFromClient = codaFromClient.preleva();
 				
-				broadcastMessage("Negro");
+				broadcastMessage("Little Lenzi");
 				
 			} catch (InterruptedException e) {
 				closeEverything(socket);
@@ -51,23 +84,32 @@ public class ClientHandler implements Runnable{
 	}
 	
 	public void broadcastMessage(String messageToSend) {
-		for (ClientHandler clientHandler : clientHandlers) { //scorre tutti i client
-			try {
-				if (!clientHandler.clientUsername.equals(clientUsername)) {
-					clientHandler.codaToClient.inserisci(messageToSend);
-//					clientHandler.bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
-//					clientHandler.bufferedWriter.flush();
-				}
-			} catch (InterruptedException e) {
-				closeEverything(socket);
-			}
+		//scorre tutti i client della lobby    
+		synchronized(lock) {
+	        for (ArrayList<ClientHandler> lobby : clientHandlers) {
+	            for (ClientHandler clientHandler : lobby) {
+	                if (!clientHandler.clientUsername.equals(clientUsername)) {
+	                    try {
+	                        clientHandler.codaToClient.inserisci(messageToSend);
+	                    } catch (InterruptedException e) {
+	                        closeEverything(socket);
+	                    }
+	                }
+	            }
+	        }
 		}
 	}
 	
 	public void removeClientHandler() {
-		clientHandlers.remove(this);
-		broadcastMessage("Server: " + clientUsername + " si e' disconnesso dalla partita");
-	}
+		synchronized(lock) {
+			clientHandlers.get(idClient).remove(this);
+
+	        if (clientHandlers.get(idClient).isEmpty()) {
+	            clientHandlers.remove(idClient);
+	        }
+		}
+         broadcastMessage("Server: " + clientUsername + " si e' disconnesso dalla partita");
+    }
 	
 	public void closeEverything(Socket socket) {
 		removeClientHandler();
