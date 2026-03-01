@@ -5,7 +5,7 @@ public class InizioTurno implements ServerMessage{
 	private String frase;
 	private String contesto;
 	
-	public InizioTurno(String frase, String Contesto) {
+	public InizioTurno(String frase, String contesto) {
 		this.contesto=contesto;
 		this.frase=frase;
 	}

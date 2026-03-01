@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class VincitoreFinale {
+public class VincitoreFinale implements ServerMessage {
 
 	private static int id = 106;
 	private int idGiocatore;

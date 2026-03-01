@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class Bancarotta {
+public class Bancarotta  implements ServerMessage{
 
 	private static int id = 904;
 	private int idGiocatore;

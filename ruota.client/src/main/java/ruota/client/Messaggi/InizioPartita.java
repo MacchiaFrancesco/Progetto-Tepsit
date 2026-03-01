@@ -1,6 +1,6 @@
 package ruota.client.Messaggi;
 
-public class InizioPartita {
+public class InizioPartita implements ClientMessage{
 	private static String id="003";
 	private String nTurni;
 	

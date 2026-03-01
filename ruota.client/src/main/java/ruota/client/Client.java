@@ -59,14 +59,17 @@ public class Client {
 		System.out.println(prelevaMessaggio());
 	}
 	
+	public void gioca(String username) {
+		
+	}
+	
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Inserisci il tuo username: ");
 		String username = scanner.nextLine();
 		Socket socket = new Socket(indirizzoServer, port);
 		Client client = new Client(socket, username);
-		client.ciao();
-		scanner.close();
+		client.gioca(username);
 	}
 
 }

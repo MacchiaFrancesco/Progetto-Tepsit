@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class InizioMinigioco {
+public class InizioMinigioco implements ServerMessage {
 
 	private static int id = 102;
 	private int nGioco;

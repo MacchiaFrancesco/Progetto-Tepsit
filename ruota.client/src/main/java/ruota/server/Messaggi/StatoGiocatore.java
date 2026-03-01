@@ -1,13 +1,15 @@
 package ruota.server.Messaggi;
 
-public class StatoGiocatore {
+public class StatoGiocatore implements ServerMessage {
 	private static String id="011";
 	private int nPlayer;
+	private int[] idGiocatori;
 	private int[] salvadanaioGiocatori;
 	private int[] soldiTurno;
 	
-	public StatoGiocatore(int nPlayer, int[] salvadanaioGiocatori, int[] soldiTurno) {
+	public StatoGiocatore(int nPlayer, int[] idGiocatori, int[] salvadanaioGiocatori, int[] soldiTurno) {
 		this.nPlayer = nPlayer;
+		this.idGiocatori = idGiocatori;
 		this.salvadanaioGiocatori = salvadanaioGiocatori;
 		this.soldiTurno = soldiTurno;
 	}
