@@ -1,6 +1,6 @@
 package ruota.server;
-import ruota.server.Messaggi.InizioPartitaServer;
-import ruota.client.Messaggi.InizioPartitaClient;
+import ruota.server.Messaggi.*;
+import ruota.client.Messaggi.*;
 
 import java.util.ArrayList;
 
@@ -30,29 +30,34 @@ public class Partita implements Runnable {
     	InizioPartitaServer iPS= new InizioPartitaServer (iPC.getNTurni());
         broadcast(iPS.tostring());
     	
-        broadcast("Frase da indovinare: " + frase.getFraseAttuale());
+        AnnuncioFrase aF=new AnnuncioFrase(frase.getFraseAttuale());
+        broadcast(aF.tostring());
 
         int indiceTurno = 0;
 
         while (!partitaFinita) {
 
             Giocatore giocatoreCorrente = listaGiocatori.get(indiceTurno);
-            sendToPlayer(giocatoreCorrente, "È il tuo turno!");
+            AnnuncioTurno aT=new AnnuncioTurno(indiceTurno);
+            sendToPlayer(giocatoreCorrente, aT.tostring());
 
             int valoreRuota = ruota.giraRuota();
-            sendToPlayer(giocatoreCorrente, "Hai girato: " + valoreRuota);
+            RisultatoRuota rR=new RisultatoRuota(valoreRuota);
+            broadcast(rR.tostring());
 
             // BANCAROTTA
             if (valoreRuota == -1) {
+                Bancarotta b=new Bancarotta (indiceTurno, giocatoreCorrente.getPunteggio());
                 giocatoreCorrente.resetPunteggio();
-                sendToPlayer(giocatoreCorrente, "BANCAROTTA! Punteggio azzerato.");
+                broadcast(b.tostring());
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 continue;
             }
 
-            // PERDI TURNO Ragazzaccio
+            // PERDI TURNO, RAGAZZACCIO!
             if (valoreRuota == -2 || valoreRuota == 0) {
-                sendToPlayer(giocatoreCorrente, "Hai perso il turno!");
+            	AvvisoTimeOut aTO=new AvvisoTimeOut();
+                sendToPlayer(giocatoreCorrente, aTO.tostring());
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 continue;
             }
