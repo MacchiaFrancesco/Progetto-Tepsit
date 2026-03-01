@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class CambioTurno {
+public class CambioTurno  implements ServerMessage{
 
 	private static int id = 051;
 	private int nuovoGiocatore;

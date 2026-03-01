@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class DisconnessioneGiocatore {
+public class DisconnessioneGiocatore implements ServerMessage{
 
 	private static int id = 901;
 	private int idGiocatore;

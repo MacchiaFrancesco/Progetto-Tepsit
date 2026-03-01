@@ -3,9 +3,9 @@ package ruota.client.Messaggi;
 public class LetteraIndovinata implements ClientMessage{
 
 	private static int id = 032;
-	private char lettera;
+	private String lettera;
 	
-	public LetteraIndovinata(char lettera) {
+	public LetteraIndovinata(String lettera) {
 		this.lettera = lettera;
 	}
 	

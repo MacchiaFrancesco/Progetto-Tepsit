@@ -3,13 +3,13 @@ package ruota.server.Messaggi;
 public class EsitoLettera implements ServerMessage{
 
 	private static int id = 033;
-	private char lettera;
+	private String lettera;
 	private int presente;
 	private int volte;
 	private String fraseParziale;
 	private int soldiGuadagnati;
 	
-	public EsitoLettera(char lettera, int presente, int volte, String fraseParziale, int soldiGuadagnati) {
+	public EsitoLettera(String lettera, int presente, int volte, String fraseParziale, int soldiGuadagnati) {
 		this.lettera = lettera;
 		this.presente = presente;
 		this.volte = volte;

@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class ConfermaLogin {
+public class ConfermaLogin implements ServerMessage{
 	private static String id="001";	
 	private int idAss;
 	private boolean esito;

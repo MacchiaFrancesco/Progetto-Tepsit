@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class ConfermaAcquistoVocale {
+public class ConfermaAcquistoVocale implements ServerMessage {
 
 	private static int id = 032;
 	private int conferma;

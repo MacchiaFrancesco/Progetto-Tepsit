@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class TimerTurno {
+public class TimerTurno implements ServerMessage {
 	private static String id="012";
 	private int secondi;
 	

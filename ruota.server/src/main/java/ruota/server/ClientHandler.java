@@ -13,35 +13,55 @@ public class ClientHandler implements Runnable{
 	private int idClient; //valorizzato in base a se il client crea o si unisce ad una lobby
 	private CodaCircolare codaToClient;
 	private CodaCircolare codaFromClient;
+	private String codiceLobby;
 	//private BufferedReader bufferedReader;
 	//private BufferedWriter bufferedWriter;
 	
 	public ClientHandler(Socket socket, CodaCircolare codaToClient, CodaCircolare codaFromClient) {
-		try {
-			//this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			//this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			this.socket = socket;
-            this.codaToClient = codaToClient;
-            this.codaFromClient = codaFromClient;
-			this.clientUsername = codaFromClient.preleva();
-			synchronized(lock) {
-			// PER ORA: ogni nuovo client crea una nuova lobby
-            ArrayList<ClientHandler> nuovaLobby = new ArrayList<>();
-            nuovaLobby.add(this);
-            clientHandlers.add(nuovaLobby);
-			broadcastMessage("Server: " + clientUsername + " si e' unito alla partita!");
+	    try {
+	        this.socket = socket;
+	        this.codaToClient = codaToClient;
+	        this.codaFromClient = codaFromClient;
+	        this.clientUsername = codaFromClient.preleva();
+	        String codeLobby = codaFromClient.preleva(); // riceve il codice lobby
+	        
+	        ServerParser.parse(codaFromClient.preleva());
 
-            idClient = clientHandlers.size() - 1; // id lobby
-			}
-            // mando l'id al primo giocatore
-			ConfermaLogin cL=new ConfermaLogin(idClient, true);
-            codaToClient.inserisci(cL.tostring());
-		} catch (InterruptedException e) {
-			closeEverything(socket);
-		}
+	        synchronized(lock) {
+	            int lobbyIndex = trovaLobby(codeLobby);
+
+	            if (lobbyIndex == -1) {
+	                // codice non trovato, crea nuova lobby
+	                ArrayList<ClientHandler> nuovaLobby = new ArrayList<>();
+	                nuovaLobby.add(this);
+	                clientHandlers.add(nuovaLobby);
+	                idClient = clientHandlers.size() - 1;
+	                
+	            } else {
+	                // codice trovato, unisciti alla lobby esistente
+	                clientHandlers.get(lobbyIndex).add(this);
+	                idClient = lobbyIndex;
+	                
+	            }
+	        }
+
+	        ConfermaLogin cL = new ConfermaLogin(idClient, true);
+	        codaToClient.inserisci(cL.tostring());
+	        this.codiceLobby = codeLobby;
+
+	    } catch (InterruptedException e) {
+	        closeEverything(socket);
+	    }
 	}
 	
-	public ClientHandler() {
+	private int trovaLobby(String codice) {
+	    for (int i = 0; i < clientHandlers.size(); i++) {
+	        ClientHandler primo = clientHandlers.get(i).get(0);
+	        if (primo.codiceLobby.equals(codice)) {
+	            return i;
+	        }
+	    }
+	    return -1; // non trovata
 	}
 	
 	public Socket getSocket() {
@@ -69,6 +89,8 @@ public class ClientHandler implements Runnable{
             }
         }
     }
+    
+    
     
     
 	@Override

@@ -1,5 +1,5 @@
 package ruota.server.Messaggi;
 
-public class GiraRuotaFinale {
+public class GiraRuotaFinale implements ServerMessage {
 
 }

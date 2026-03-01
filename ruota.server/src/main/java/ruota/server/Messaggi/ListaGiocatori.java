@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class ListaGiocatori {
+public class ListaGiocatori implements ServerMessage {
 	private static String id="002";
 	private int nPlayer;	
 	private String[] nomePlayer;

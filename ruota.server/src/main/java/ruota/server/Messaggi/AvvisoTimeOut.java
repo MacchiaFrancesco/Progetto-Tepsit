@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class AvvisoTimeOut {
+public class AvvisoTimeOut  implements ServerMessage{
 	private static String id = "902";
 
 	public AvvisoTimeOut() {

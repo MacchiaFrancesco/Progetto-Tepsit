@@ -1,51 +1,59 @@
 package ruota.server;
+import ruota.client.Messaggi.*;
 
 public class ServerParser {
 
-    public static void parse(String s) {
+    public static ClientMessage parse(String s) {
         String[] ps = s.split(";");
+        ClientMessage messaggioDaClient = null;
 
         switch(Integer.parseInt(ps[0])) {
             case 000:
-                InputHandler.loginGiocatore(ps[1]);
+                messaggioDaClient = new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
                 break;
 
             case 003:
-                InputHandler.inizioPartita(Integer.parseInt(ps[1]));
+                messaggioDaClient = new InizioPartita(Integer.parseInt(ps[1]));
                 break;
 
             case 020:
-                InputHandler.girareRuota();
+                messaggioDaClient = new GiraRuota();
                 break;
 
             case 030:
-                InputHandler.letteraIndovinata(ps[1]);
+                messaggioDaClient = new LetteraIndovinata(ps[1]);
                 break;
 
             case 040:
-                InputHandler.dareSoluzioneFrase(ps[1]);
+                messaggioDaClient = new SoluzioneFrase(ps[1]);
                 break;
 
             case 050:
-                InputHandler.passoTurno();
+                messaggioDaClient = new PassoTurno();
                 break;
 
             case 101:
-                InputHandler.girareRuotaMeraviglie();
+                messaggioDaClient = new GiraRuotaMeraviglie();
                 break;
 
             case 104:
-                InputHandler.selezioneBusta(Integer.parseInt(ps[1]));
+                messaggioDaClient = new SelezioneBusta(Integer.parseInt(ps[1]));
                 break;
 
             case 903:
-                InputHandler.controlloConnessione(Long.parseLong(ps[1]));
+                //messaggioDaClient = new ControlloConnessione(Long.parseLong(ps[1]));
                 break;
 
             case 999:
-            	InputHandler.test();
+                //messaggioDaClient = new Test();
+            	System.out.println("Server Parser: il test ha avuto successo");
+                break;
+
             default:
-                System.out.println("Messaggio non riconosciuto");
+                System.out.println("Server Parser: Messaggio non riconosciuto");
+                break;
         }
+
+        return messaggioDaClient;
     }
 }

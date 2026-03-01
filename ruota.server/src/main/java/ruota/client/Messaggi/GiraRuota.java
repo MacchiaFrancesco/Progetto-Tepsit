@@ -9,7 +9,6 @@ public class GiraRuota implements ClientMessage{
 	}
 	
 	public String toString() {
-		String messaggio = id;
-		return messaggio;
+		return id;
 	}
 }

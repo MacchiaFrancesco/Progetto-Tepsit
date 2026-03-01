@@ -3,9 +3,11 @@ package ruota.client.Messaggi;
 public class LoginGiocatore implements ClientMessage{
 	private static int id;
 	private String nome;
+	private int codice;
 	
-	public LoginGiocatore(String nome) {
+	public LoginGiocatore(String nome, int codice) {
 		this.nome=nome;
+		this.codice = codice;
 		id=000;
 	}
 	
@@ -17,7 +19,7 @@ public class LoginGiocatore implements ClientMessage{
 	}
 	
 	public String tostring() {
-		String messaggio = id+";"+aggAsterischi(nome, 20);
+		String messaggio = id+";"+aggAsterischi(nome, 20)+";"+codice;
 		return messaggio;
 	}
 }

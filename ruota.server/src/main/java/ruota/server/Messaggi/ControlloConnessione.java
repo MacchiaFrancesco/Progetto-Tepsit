@@ -1,6 +1,6 @@
 package ruota.server.Messaggi;
 
-public class ControlloConnessione {
+public class ControlloConnessione implements ServerMessage {
 
 	private static int id = 903;
 	private int timestamp;

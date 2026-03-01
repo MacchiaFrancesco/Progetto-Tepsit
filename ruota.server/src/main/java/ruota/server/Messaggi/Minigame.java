@@ -1,5 +1,5 @@
 package ruota.server.Messaggi;
 
-public class Minigame {
+public class Minigame implements ServerMessage {
 
 }
