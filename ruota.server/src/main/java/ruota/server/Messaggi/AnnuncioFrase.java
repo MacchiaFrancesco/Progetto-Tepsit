@@ -9,6 +9,8 @@ public class AnnuncioFrase implements ServerMessage{
 		this.frase = frase;
 	}
 	
+	
+	
 	public String tostring() {
 		String messaggio = id+";"+ServerMessage.aggAsterischi(frase, 52);
 		return messaggio;
