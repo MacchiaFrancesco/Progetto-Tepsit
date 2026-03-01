@@ -3,16 +3,14 @@ package ruota.server.Messaggi;
 public class DareSoluzioneFrase {
 
 	private static int id = 041;
-	private int esito;
-	private int soldi;
+	private String s;
 	
-	public DareSoluzioneFrase(int esito, int soldi) {
-		this.esito = esito;
-		this.soldi = soldi;
+	public DareSoluzioneFrase(String s) {
+		this.s = s;
 	}
 	
 	public String toString() {
-		String messaggio = id+";"+esito+";"+soldi;
+		String messaggio = id+";"+s;
 		return messaggio;
 	}
 }

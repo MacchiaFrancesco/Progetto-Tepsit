@@ -3,7 +3,8 @@ package ruota.server;
 public class Giocatore {
 
     private String username;
-    private int punteggio;
+    private int punteggioTurno;
+    private int punteggioPartita;
     private Trasmissione trasmissione;
     private InputHandler inputHandler;
     private CodaCircolare codaRicezione;
@@ -12,7 +13,8 @@ public class Giocatore {
         this.username = username;
         this.trasmissione = trasmissione;
         this.inputHandler = inputHandler;
-        this.punteggio = 0;
+        this.punteggioPartita = 0;
+        this.punteggioPartita=0;
     }
 
     //Username
@@ -20,17 +22,30 @@ public class Giocatore {
         return username;
     }
 
-    //Punteggio
-    public int getPunteggio() {
-        return punteggio;
+    //Punteggio Turno
+    public int getPunteggioTurno() {
+        return punteggioTurno;
     }
 
-    public void aggiungiPunteggio(int punti) {
-        this.punteggio += punti;
+    public void aggiungiPunteggioTurno(int punti) {
+        this.punteggioTurno += punti;
     }
 
     public void resetPunteggio() {
-        this.punteggio = 0;
+        this.punteggioTurno = 0;
+    }
+
+    //Punteggio Partita 
+    public int getPunteggioPartita() {
+        return punteggioPartita;
+    }
+
+    public void aggiungiPunteggioPartita(int punti) {
+        this.punteggioPartita += punti;
+    }
+
+    public void resetPunteggioPartita() {
+        this.punteggioPartita = 0;
     }
 
     //Trasmissione

@@ -63,6 +63,7 @@ public class Partita implements Runnable {
             }
 
             // Chiede input al giocatore
+            
             sendToPlayer(giocatoreCorrente, "Scrivi il tuo comando (una LETTERA o la FRASE):");
 
             String input = null;
@@ -78,43 +79,45 @@ public class Partita implements Runnable {
             }
 
             input = input.trim().toUpperCase();
+            int punti;
 
             // Se il giocatore prova una lettera
             if (input.length() == 1 && Character.isLetter(input.charAt(0))) {
                 char lettera = input.charAt(0);
                 int occorrenze = frase.controllaLettera(lettera);
+                
 
                 if (occorrenze > 0) {
-                    int punti = valoreRuota * occorrenze;
-                    giocatoreCorrente.aggiungiPunteggio(punti);
-
-                    broadcast("Lettera trovata! Occorrenze: " + occorrenze);
-                    broadcast("Frase attuale: " + frase.getFraseAttuale());
-
-                    if (frase.completata()) {
-                        broadcast("Frase completata da " + giocatoreCorrente.getUsername() + "!");
-                        broadcast("Frase completa: " + frase.getFraseOriginale());
-                        partitaFinita = true;
-                    }
+                    punti = valoreRuota * occorrenze;
+                    giocatoreCorrente.aggiungiPunteggioTurno(punti);
+                    
+                    EsitoLettera eL=new EsitoLettera (input, true, occorrenze, frase.getFraseAttuale(), punti);
+                    broadcast(eL.toString());
 
                 } else {
-                    sendToPlayer(giocatoreCorrente, "Lettera non presente.");
+                    EsitoLettera eL=new EsitoLettera (input, false, occorrenze, frase.getFraseAttuale(), 0);
+                    sendToPlayer(giocatoreCorrente, eL.toString());
                     indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 }
 
             // Se il giocatore prova a indovinare la frase completa
             } else if (input.length() > 1) {
                 if (frase.controllaSoluzione(input)) {
+                	giocatoreCorrente.aggiungiPunteggioPartita(punti);
+                	SoluzioneCorretta sC=new SoluzioneCorretta(true, giocatoreCorrente.getPunteggioPartita()); //<--- QUESTO QUI!!!
+                	DareSoluzioneFrase dSF=new DareSoluzioneFrase(frase.getFraseOriginale());
                     broadcast("Frase indovinata da " + giocatoreCorrente.getUsername() + "!");
-                    broadcast("Frase completa: " + frase.getFraseOriginale());
+                    broadcast(dSF.toString());
                     partitaFinita = true;
                 } else {
-                    sendToPlayer(giocatoreCorrente, "Soluzione errata!");
+                	SoluzioneCorretta sC=new SoluzioneCorretta(false, giocatoreCorrente.getPunteggioPartita());                	
+                    sendToPlayer(giocatoreCorrente, sC.toString());
                     indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 }
 
             } else {
-                sendToPlayer(giocatoreCorrente, "Comando non valido!");
+            	SoluzioneCorretta sC=new SoluzioneCorretta(false, giocatoreCorrente.getPunteggioPartita());   
+                sendToPlayer(giocatoreCorrente, sC.toString());
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
             }
         }
