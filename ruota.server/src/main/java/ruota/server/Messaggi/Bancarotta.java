@@ -1,18 +1,26 @@
 package ruota.server.Messaggi;
 
-public class Bancarotta  implements ServerMessage{
+public class Bancarotta implements ServerMessage {
 
-	private static int id = 904;
-	private int idGiocatore;
-	private int soldiPersi;
-	
-	public Bancarotta(int idGiocatore, int soldiPersi) {
-		this.idGiocatore = idGiocatore;
-		this.soldiPersi = soldiPersi;
-	}
-	
-	public String tostring() {
-		String messaggio = id+";"+idGiocatore+";"+soldiPersi;
-		return messaggio;
-	}
+    private static int id = 904;
+    private int idGiocatore;
+    private int soldiPersi;
+    
+    public Bancarotta(int idGiocatore, int soldiPersi) {
+        this.idGiocatore = idGiocatore;
+        this.soldiPersi = soldiPersi;
+    }
+
+    public int getIdGiocatore() {
+        return idGiocatore;
+    }
+
+    public int getSoldiPersi() {
+        return soldiPersi;
+    }
+
+    @Override
+    public String toString() {
+        return id + ";" + idGiocatore + ";" + soldiPersi;
+    }
 }

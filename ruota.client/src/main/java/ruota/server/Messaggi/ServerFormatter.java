@@ -1,5 +1,5 @@
 package ruota.server.Messaggi;
 
-public class ServerFormatter {
+public class ServerFormatter implements ServerMessage {
 
 }

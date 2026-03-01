@@ -1,15 +1,19 @@
 package ruota.client.Messaggi;
 
-public class InizioPartita implements ClientMessage{
-	private static String id="003";
-	private int nTurni;
-	
-	public InizioPartita(int nTurni) {
-		this.nTurni=nTurni;
-	}
+public class InizioPartita implements ClientMessage {
+    private static int id = 003;
+    private int nTurni;
 
-	public String tostring() {
-		String messaggio = id+";"+nTurni;
-		return messaggio;
-	}
+    public InizioPartita(int nTurni) {
+        this.nTurni = nTurni;
+    }
+
+    public int getNTurni() {
+        return nTurni;
+    }
+
+    @Override
+    public String toString() {
+        return id + ";" + nTurni;
+    }
 }

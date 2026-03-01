@@ -4,10 +4,18 @@ public class InizioTurno implements ServerMessage{
 	private static String id="010";
 	private String frase;
 	private String contesto;
-	
+
 	public InizioTurno(String frase, String contesto) {
 		this.contesto=contesto;
 		this.frase=frase;
+	}
+
+	public String getFrase() {
+		return frase;
+	}
+
+	public String getContesto() {
+		return contesto;
 	}
 
 	public String tostring() {

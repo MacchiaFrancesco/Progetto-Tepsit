@@ -5,12 +5,20 @@ public class PremioFinale implements ServerMessage {
 	private static int id = 105;
 	private int importoBusta;
 	private int soldiVinti;
-	
+
 	public PremioFinale(int importoBusta, int soldiVinti) {
 		this.soldiVinti = soldiVinti;
 		this.importoBusta = importoBusta;
 	}
-	
+
+	public int getImportoBusta() {
+		return importoBusta;
+	}
+
+	public int getSoldiVinti() {
+		return soldiVinti;
+	}
+
 	public String tostring() {
 		String messaggio =  id+";"+importoBusta+";"+soldiVinti;
 		return messaggio;

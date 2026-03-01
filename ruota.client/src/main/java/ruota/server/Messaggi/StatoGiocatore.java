@@ -6,12 +6,28 @@ public class StatoGiocatore implements ServerMessage {
 	private int[] idGiocatori;
 	private int[] salvadanaioGiocatori;
 	private int[] soldiTurno;
-	
+
 	public StatoGiocatore(int nPlayer, int[] idGiocatori, int[] salvadanaioGiocatori, int[] soldiTurno) {
 		this.nPlayer = nPlayer;
 		this.idGiocatori = idGiocatori;
 		this.salvadanaioGiocatori = salvadanaioGiocatori;
 		this.soldiTurno = soldiTurno;
+	}
+
+	public int getNPlayer() {
+		return nPlayer;
+	}
+
+	public int[] getIdGiocatori() {
+		return idGiocatori;
+	}
+
+	public int[] getSalvadanaioGiocatori() {
+		return salvadanaioGiocatori;
+	}
+
+	public int[] getSoldiTurno() {
+		return soldiTurno;
 	}
 
 	public String tostring() {

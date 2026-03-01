@@ -4,11 +4,15 @@ public class ControlloConnessione implements ServerMessage {
 
 	private static int id = 903;
 	private int timestamp;
-	
+
 	public ControlloConnessione(int timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
+	public int getTimestamp() {
+		return timestamp;
+	}
+
 	public String tostring() {
 		String messaggio = id+";"+timestamp;
 		return messaggio;

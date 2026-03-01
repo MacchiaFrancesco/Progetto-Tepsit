@@ -8,7 +8,7 @@ public class EsitoLettera implements ServerMessage{
 	private int volte;
 	private String fraseParziale;
 	private int soldiGuadagnati;
-	
+
 	public EsitoLettera(String lettera, boolean presente, int volte, String fraseParziale, int soldiGuadagnati) {
 		this.lettera = lettera;
 		this.presente = presente;
@@ -16,7 +16,27 @@ public class EsitoLettera implements ServerMessage{
 		this.fraseParziale = fraseParziale;
 		this.soldiGuadagnati = soldiGuadagnati;
 	}
-	
+
+	public String getLettera() {
+		return lettera;
+	}
+
+	public boolean isPresente() {
+		return presente;
+	}
+
+	public int getVolte() {
+		return volte;
+	}
+
+	public String getFraseParziale() {
+		return fraseParziale;
+	}
+
+	public int getSoldiGuadagnati() {
+		return soldiGuadagnati;
+	}
+
 	public String toString() {
 		String messaggio = id+";"+lettera+";"+presente+";"+volte+";"+fraseParziale+";"+soldiGuadagnati;
 		return messaggio;
