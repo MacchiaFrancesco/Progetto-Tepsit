@@ -1,4 +1,6 @@
 package ruota.server;
+import ruota.server.Messaggi.InizioPartitaServer;
+import ruota.client.Messaggi.InizioPartitaClient;
 
 import java.util.ArrayList;
 
@@ -8,19 +10,26 @@ public class Partita implements Runnable {
     private Frase frase;
     private ArrayList<Giocatore> listaGiocatori;
     private boolean partitaFinita;
+    private CodaCircolare cRic;
+    private CodaCircolare cTra;
 
-    public Partita(ArrayList<Giocatore> listaGiocatori) {
+    public Partita(ArrayList<Giocatore> listaGiocatori, CodaCircolare cRic, CodaCircolare cTra) {
         this.listaGiocatori = listaGiocatori;
         this.ruota = new Ruota();
         this.frase = new Frase(); // legge le frasi da file e maschera automaticamente
         this.partitaFinita = false;
+        this.cRic=cRic;
+        this.cTra=cTra;
     }
 
     @Override
     public void run() {
 
         // Mostra la frase mascherata all’inizio della partita
-        broadcast("=== INIZIO PARTITA ===");
+    	InizioPartitaClient iPC = new InizioPartitaClient();
+    	InizioPartitaServer iPS= new InizioPartitaServer (iPC.getNTurni());
+        broadcast(iPS.tostring());
+    	
         broadcast("Frase da indovinare: " + frase.getFraseAttuale());
 
         int indiceTurno = 0;
@@ -41,7 +50,7 @@ public class Partita implements Runnable {
                 continue;
             }
 
-            // PERDI TURNO
+            // PERDI TURNO Ragazzaccio
             if (valoreRuota == -2 || valoreRuota == 0) {
                 sendToPlayer(giocatoreCorrente, "Hai perso il turno!");
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
@@ -58,7 +67,7 @@ public class Partita implements Runnable {
                 e.printStackTrace();
             }
 
-            if (input == null || input.isBlank()) {
+            if (input == null || input.trim().isEmpty()) {
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 continue;
             }
@@ -113,7 +122,7 @@ public class Partita implements Runnable {
     // Invia un messaggio a un singolo giocatore
     private void sendToPlayer(Giocatore g, String messaggio) {
         try {
-            g.getTrasmissione().getCoda().inserisci(messaggio);
+            cTra.inserisci(messaggio);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

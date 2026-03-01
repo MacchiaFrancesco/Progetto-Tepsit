@@ -1,8 +1,9 @@
 package ruota.server;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import ruota.server.Messaggi.ConfermaLogin;
 
 public class ClientHandler implements Runnable{
 	public static ArrayList<ArrayList<ClientHandler>> clientHandlers = new ArrayList<>(); //Una struttura globale condivisa che contiene tutte le lobby del server, ognuna con i propri client. È il “database temporaneo” dei giocatori attivi.
@@ -33,10 +34,14 @@ public class ClientHandler implements Runnable{
             idClient = clientHandlers.size() - 1; // id lobby
 			}
             // mando l'id al primo giocatore
-            codaToClient.inserisci("ID_LOBBY " + idClient);
+			ConfermaLogin cL=new ConfermaLogin(idClient, true);
+            codaToClient.inserisci(cL.tostring());
 		} catch (InterruptedException e) {
 			closeEverything(socket);
 		}
+	}
+	
+	public ClientHandler() {
 	}
 	
 	public Socket getSocket() {

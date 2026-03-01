@@ -5,7 +5,7 @@ public class ConfermaLogin {
 	private int idAss;
 	private boolean esito;
 	
-	public ConfermaLogin(int IdAss, boolean esito) {
+	public ConfermaLogin(int idAss, boolean esito) {
 		this.idAss=idAss;
 		this.esito=esito;
 	}

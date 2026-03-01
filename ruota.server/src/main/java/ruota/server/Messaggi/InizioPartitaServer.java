@@ -1,10 +1,10 @@
 package ruota.server.Messaggi;
 
-public class InizioPartita {
+public class InizioPartitaServer {
 	private static String id="004";
-	private String nTurni;
+	private int nTurni;
 	
-	public InizioPartita(String nTurni) {
+	public InizioPartitaServer(int nTurni) {
 		this.nTurni=nTurni;
 	}
 	
