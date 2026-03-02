@@ -1,18 +1,19 @@
-package ruota.server;
+ package ruota.server;
 
 public class Giocatore {
 
     private String username;
     private int punteggioTurno;
     private int punteggioPartita;
-    private Trasmissione trasmissione;
-    private InputHandler inputHandler;
+    //private Trasmissione trasmissione;
     private CodaCircolare codaRicezione;
+    private CodaCircolare codaTrasmissione;
     
-    public Giocatore(String username, Trasmissione trasmissione, InputHandler inputHandler) {
+    public Giocatore(String username, CodaCircolare codaTrasmissione, CodaCircolare codaRicezione) { //Trasmissione trasmissione
         this.username = username;
-        this.trasmissione = trasmissione;
-        this.inputHandler = inputHandler;
+        this.codaRicezione = codaRicezione;
+        this.codaTrasmissione = codaTrasmissione;
+        //this.trasmissione = trasmissione;
         this.punteggioPartita = 0;
         this.punteggioPartita=0;
     }
@@ -49,14 +50,9 @@ public class Giocatore {
     }
 
     //Trasmissione
-    public Trasmissione getTrasmissione() {
-        return trasmissione;
-    }
-
-    //Input
-    public InputHandler getInputHandler() {
-        return inputHandler;
-    }
+//    public Trasmissione getTrasmissione() {
+//        return trasmissione;
+//    }
     
     public CodaCircolare getCodaRicezione() {
         return codaRicezione;
@@ -64,6 +60,14 @@ public class Giocatore {
     
     public void setCodaRicezione(CodaCircolare codaRicezione) {
         this.codaRicezione = codaRicezione;
+    }
+    
+    public CodaCircolare getCodaTrasmissione() {
+    	return codaTrasmissione;
+    }
+    
+    public void setCodaTrasmissione(CodaCircolare codaTrasmissione) {
+    	this.codaTrasmissione = codaTrasmissione;
     }
 }
 

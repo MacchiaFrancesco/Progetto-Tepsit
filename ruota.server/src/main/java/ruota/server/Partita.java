@@ -10,8 +10,8 @@ public class Partita implements Runnable {
     private Frase frase;
     private ArrayList<Giocatore> listaGiocatori;
     private boolean partitaFinita;
-    private CodaCircolare cRic;
-    private CodaCircolare cTra;
+//    private CodaCircolare cRic;
+//    private CodaCircolare cTra;
     private int nTurni;
     private String[] arrVocali = {"A", "E", "I", "O", "U"};
     
@@ -21,12 +21,12 @@ public class Partita implements Runnable {
   
    
 
-    public Partita(ArrayList<Giocatore> listaGiocatori, CodaCircolare cRic, CodaCircolare cTra, int nTurni) {
+    public Partita(ArrayList<Giocatore> listaGiocatori,  int nTurni) { //CodaCircolare cRic, CodaCircolare cTra,
         this.listaGiocatori = listaGiocatori;
         this.ruota = new Ruota();
         this.partitaFinita = false;
-        this.cRic=cRic;
-        this.cTra=cTra;
+//        this.cRic=cRic;
+//        this.cTra=cTra;
         this.nTurni = nTurni;
         
     }
@@ -68,16 +68,16 @@ public class Partita implements Runnable {
         	
         	AnnuncioTurno aT = new AnnuncioTurno(turnoCorrenteGiocatore);
     		broadcast(aT.toString());
-    		
+    		Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore); 
         	while(!frase.completata()) {
         		ClientMessage msg = null;
 				try {
-					msg = ServerParser.parse(cRic.preleva());
+					msg = ServerParser.parse(g.getCodaRicezione().preleva());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore);
+				
         		switch (msg.getId()) {
 
 
@@ -196,7 +196,7 @@ public class Partita implements Runnable {
     // Invia un messaggio a un singolo giocatore
     private void sendToPlayer(Giocatore g, String messaggio) {
         try {
-            cTra.inserisci(messaggio);
+            g.getCodaTrasmissione().inserisci(messaggio);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
