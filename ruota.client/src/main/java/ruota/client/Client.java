@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import ruota.client.Messaggi.*;
+import ruota.server.Messaggi.*;
 
 
 public class Client {
@@ -64,15 +65,22 @@ public class Client {
 		System.out.println(prelevaMsg());
 	}
 	
-	public void gioca() throws InterruptedException {
+	public void testgioca() throws InterruptedException {
 		ClientMessage login =  new LoginGiocatore(username, lobbyCode);
 		inviaMsg(login.toString());
 		
+		giraRuota();
 		
+		String msg = prelevaMsg();
+		ServerMessage mess = ClientParser.parse(msg);
+		RisultatoRuota rR = (RisultatoRuota) mess;
+		System.out.println(rR.getRisultato());
 	}
 	
+	
+	
 	public void startGame(int numeroTurni) throws InterruptedException {
-		ClientMessage sG = new InizioPartita(numeroTurni);
+		ClientMessage sG = new InizioPartitaClient(numeroTurni);
 		inviaMsg(sG.toString());
 	}
 	
@@ -109,7 +117,7 @@ public class Client {
 		int lobbyCode = scanner.nextInt();
 		Socket socket = new Socket(indirizzoServer, port);
 		Client client = new Client(socket, username, lobbyCode);
-		client.gioca();
+		client.testgioca();
 	}
 
 }

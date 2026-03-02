@@ -163,13 +163,19 @@ public class Partita implements Runnable {
 	                    break;
 	
 	                case 50: // Passo turno
-	                	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                	// turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                	
+	                	//minigioco++
 	                    break;
 	
 	                case 903: // Controllo connessione
 	                    // TODO: rispondere con ControlloConnessione
 	                    break;
 	
+	                    
+	                // bisogna fare la ruota delle meraviglie
+	                    
+	                    
 	                default:
 	                    System.out.println("TARTAMELLA NON LAVORA");
 	                    break;
