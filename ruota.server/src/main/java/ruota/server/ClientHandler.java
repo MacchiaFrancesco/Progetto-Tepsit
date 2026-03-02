@@ -95,6 +95,33 @@ public class ClientHandler implements Runnable{
 	    this.partita = p;
 	}
 	
+	
+	public void avviaPartitaDaLobby(int lobbyId, int nTurni) { //little lenzi controlla
+	    synchronized(lock) {
+	        ArrayList<ClientHandler> lobby = clientHandlers.get(lobbyId);
+	        
+	        // Costruisci la lista Giocatori dalla lobby
+	        ArrayList<Giocatore> giocatori = new ArrayList<>();
+	        for (ClientHandler ch : lobby) {
+	            giocatori.add(new Giocatore(ch.clientUsername, ch.codaFromClient, ch.codaToClient));
+	        }
+	        
+	        // Crea la Partita con i giocatori
+	        Partita p = new Partita(giocatori, nTurni);
+	        
+	        // Assegna la partita a tutti i ClientHandler della lobby
+	        for (ClientHandler ch : lobby) {
+	            ch.setPartita(p);
+	        }
+	        
+	        // Rimuovi la lobby dall'array globale (non serve più)
+	        clientHandlers.remove(lobbyId);
+	        
+	        // Avvia la partita in un thread separato
+	        new Thread(p).start();
+	    }
+	}
+	
 	// Metodo per far entrare un client in una lobby esistente
     public void uniscitiLobby(int lobbyId) throws InterruptedException {
         synchronized(lock) {
