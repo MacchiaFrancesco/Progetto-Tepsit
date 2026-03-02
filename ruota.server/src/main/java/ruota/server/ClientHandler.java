@@ -15,9 +15,11 @@ public class ClientHandler implements Runnable{
 	private int idClient; //valorizzato in base a se il client crea o si unisce ad una lobby
 	private CodaCircolare codaToClient;
 	private CodaCircolare codaFromClient;
+	private Partita partita;
 	private String codiceLobby;
 	//private BufferedReader bufferedReader;
 	//private BufferedWriter bufferedWriter;
+	//HELP ME MACCHIARDO
 	
 	public ClientHandler(Socket socket, CodaCircolare codaToClient, CodaCircolare codaFromClient) {
 	    try {
@@ -51,7 +53,7 @@ public class ClientHandler implements Runnable{
 	        }
 
 	        ConfermaLogin cL = new ConfermaLogin(idClient, true);
-	        codaToClient.inserisci(cL.tostring());
+	        codaToClient.inserisci(cL.toString());
 
 	    } catch (InterruptedException e) {
 	        closeEverything(socket);
@@ -78,6 +80,18 @@ public class ClientHandler implements Runnable{
 
 	public int getIdClient() {
 	    return idClient;
+	}
+	
+	public void handlerToClient(ArrayList<Giocatore> listaGiocatori) {
+	    if (partita != null) {
+	        partita.setListaGiocatori(listaGiocatori);  
+	    } else {
+	        System.err.println("Errore: partita non inizializzata in ClientHandler");
+	    }
+	}
+	
+	public void setPartita(Partita p) {
+	    this.partita = p;
 	}
 	
 	// Metodo per far entrare un client in una lobby esistente

@@ -104,7 +104,7 @@ public class Partita implements Runnable {
             } else if (input.length() > 1) {
                 if (frase.controllaSoluzione(input)) {
                 	giocatoreCorrente.aggiungiPunteggioPartita(punti);
-                	SoluzioneCorretta sC=new SoluzioneCorretta(true, giocatoreCorrente.getPunteggioPartita()); //<--- QUESTO QUI!!!
+                	SoluzioneCorretta sC=new SoluzioneCorretta(true, giocatoreCorrente.getPunteggioPartita()); 
                 	DareSoluzioneFrase dSF=new DareSoluzioneFrase(frase.getFraseOriginale());
                     broadcast("Frase indovinata da " + giocatoreCorrente.getUsername() + "!");
                     broadcast(dSF.toString());
@@ -143,6 +143,10 @@ public class Partita implements Runnable {
         }
     }
 
+    public void setListaGiocatori(ArrayList<Giocatore> listaGiocatori){
+    	this.listaGiocatori=listaGiocatori;
+    }
+    
     // Mostra la classifica finale
     private void mostraClassifica() {
         broadcast("=== CLASSIFICA FINALE ===");
