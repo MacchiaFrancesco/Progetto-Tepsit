@@ -1,26 +1,32 @@
 package ruota.server.Messaggi;
 
-public class SoluzioneCorretta implements ServerMessage{
+public class SoluzioneCorretta implements ServerMessage {
 
-	private static int id = 041;
-	private boolean esito;
-	private int soldi;
+    private static int id = 041;
+    private boolean esito;
+    private int soldi;
 
-	public SoluzioneCorretta(boolean esito, int soldi) {
-		this.esito = esito;
-		this.soldi = soldi;
-	}
+    public SoluzioneCorretta(boolean esito, int soldi) {
+        this.esito = esito;
+        this.soldi = soldi;
+    }
 
-	public boolean isEsito() {
-		return esito;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public int getSoldi() {
-		return soldi;
-	}
+    public boolean isEsito() {
+        return esito;
+    }
 
-	public String toString() {
-		String messaggio = id+";"+esito+";"+soldi;
-		return messaggio;
-	}
+    public int getSoldi() {
+        return soldi;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + esito + ";" + soldi;
+        return messaggio;
+    }
 }

@@ -55,11 +55,14 @@ public class ClientParser {
                 break;
 
             case 033:
-                messaggioDaServer = new EsitoLettera(ps[1], Integer.parseInt(ps[2]), Integer.parseInt(ps[3]), ps[4], Integer.parseInt(ps[5]));
+            	boolean bool1 = ps[2].equals("1"); //se a e 1 equals() restituisce true se a e 0 restituisce false
+            	
+                messaggioDaServer = new EsitoLettera(ps[1], bool1, Integer.parseInt(ps[3]), ps[4], Integer.parseInt(ps[5]));
                 break;
 
             case 041:
-                messaggioDaServer = new SoluzioneCorretta(Integer.parseInt(ps[1]), Integer.parseInt(ps[2]));
+            	boolean bool2 = ps[1].equals("1");
+                messaggioDaServer = new SoluzioneCorretta(bool2, Integer.parseInt(ps[2]));
                 break;
 
             case 042:

@@ -16,4 +16,10 @@ public class InizioPartita implements ClientMessage {
     public String toString() {
         return id + ";" + nTurni;
     }
+
+//	@Override
+//	public int getId() {
+//		// TODO Auto-generated method stub
+//		return id;
+//	}
 }

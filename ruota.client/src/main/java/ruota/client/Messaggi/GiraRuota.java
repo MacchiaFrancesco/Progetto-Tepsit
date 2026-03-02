@@ -11,4 +11,10 @@ public class GiraRuota implements ClientMessage{
 	public String toString() {
 		return id;
 	}
+
+//	@Override
+//	public String getId() {
+//		// TODO Auto-generated method stub
+//		return id;
+//	}
 }

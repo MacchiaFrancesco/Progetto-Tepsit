@@ -1,19 +1,26 @@
 package ruota.server.Messaggi;
 
 public class TimerTurno implements ServerMessage {
-	private static String id="012";
-	private int secondi;
 
-	public TimerTurno(int secondi) {
-		this.secondi = secondi;
-	}
+    private static String id = "012";
+    private int secondi;
 
-	public int getSecondi() {
-		return secondi;
-	}
+    public TimerTurno(int secondi) {
+        this.secondi = secondi;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+secondi;
-		return messaggio;
-	}
+    @Override
+    public int getId() {
+        return Integer.parseInt(id);
+    }
+
+    public int getSecondi() {
+        return secondi;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + secondi;
+        return messaggio;
+    }
 }

@@ -2,19 +2,25 @@ package ruota.server.Messaggi;
 
 public class ControlloConnessione implements ServerMessage {
 
-	private static int id = 903;
-	private int timestamp;
+    private static int id = 903;
+    private int timestamp;
 
-	public ControlloConnessione(int timestamp) {
-		this.timestamp = timestamp;
-	}
+    public ControlloConnessione(int timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public int getTimestamp() {
-		return timestamp;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+timestamp;
-		return messaggio;
-	}
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + timestamp;
+        return messaggio;
+    }
 }

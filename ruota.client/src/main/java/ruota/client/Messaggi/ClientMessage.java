@@ -8,4 +8,6 @@ public interface ClientMessage {
 		}
 		return string;
 	}
+	
+	
 }

@@ -25,6 +25,7 @@ public class ClientHandler implements Runnable{
 	        this.codaToClient = codaToClient;
 	        this.codaFromClient = codaFromClient;
 	        this.clientUsername = codaFromClient.preleva();
+	        
 	        ClientMessage msg = ServerParser.parse(codaFromClient.preleva());
 			if (msg instanceof LoginGiocatore) { //usare instanceof per evitare class cast exception 
 			    LoginGiocatore login = (LoginGiocatore) msg;
@@ -51,7 +52,7 @@ public class ClientHandler implements Runnable{
 	        }
 
 	        ConfermaLogin cL = new ConfermaLogin(idClient, true);
-	        codaToClient.inserisci(cL.tostring());
+	        codaToClient.inserisci(cL.toString());
 
 	    } catch (InterruptedException e) {
 	        closeEverything(socket);

@@ -82,7 +82,7 @@ public class Client {
 	}
 	
 	public void indovinaLettera(String lettera) throws InterruptedException {
-		ClientMessage lI = new LetteraIndovinata(lettera.charAt(0));
+		ClientMessage lI = new LetteraIndovinata("" + lettera.charAt(0));
 		inviaMsg(lI.toString());
 	}
 	

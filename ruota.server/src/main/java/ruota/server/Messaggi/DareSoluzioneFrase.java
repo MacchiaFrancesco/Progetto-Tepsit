@@ -1,20 +1,26 @@
 package ruota.server.Messaggi;
 
-public class DareSoluzioneFrase {
+public class DareSoluzioneFrase implements ServerMessage {
 
-	private static int id = 041;
-	private String s;
+    private static int id = 41;
+    private String s;
 
-	public DareSoluzioneFrase(String s) {
-		this.s = s;
-	}
+    public DareSoluzioneFrase(String s) {
+        this.s = s;
+    }
 
-	public String getSoluzione() {
-		return s;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public String toString() {
-		String messaggio = id+";"+s;
-		return messaggio;
-	}
+    public String getSoluzione() {
+        return s;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + s;
+        return messaggio;
+    }
 }
