@@ -50,7 +50,7 @@ public class ServerParser {
                 break;
 
             default:
-                System.out.println("Server Parser: Messaggio non riconosciuto");
+                System.out.println("Server Parser: Messaggio non riconosciuto " + s);
                 break;
         }
 

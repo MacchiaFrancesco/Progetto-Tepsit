@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class TimerMinigiochi implements ServerMessage {
 
-    private static String id = "012";
+    private static String id = "12";
     private int secondi;
 
     public TimerMinigiochi(int secondi) {

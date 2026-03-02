@@ -17,6 +17,7 @@ public class ClientHandler implements Runnable{
 	private CodaCircolare codaFromClient;
 	private Partita partita;
 	private String codiceLobby;
+	private int minGiocatori = 1;
 	//private BufferedReader bufferedReader;
 	//private BufferedWriter bufferedWriter;
 	//HELP ME MACCHIARDO
@@ -139,22 +140,41 @@ public class ClientHandler implements Runnable{
     
     
     
-	@Override
-	public void run() {
-		String messageFromClient;
-		
-		while (socket.isConnected()) {
-			try { 
-				messageFromClient = codaFromClient.preleva();
-				
-				broadcastMessage("Little Lenzi");
-				
-			} catch (InterruptedException e) {
-				closeEverything(socket);
-				break; //senno loop infinito di closeEverything()
-			}		
-		}
-	}
+    @Override
+    public void run() {
+        while (socket.isConnected()) {
+            try {
+                ClientMessage mg = ServerParser.parse(codaFromClient.preleva());
+
+                if (mg instanceof InizioPartitaClient) {
+                    InizioPartitaClient iPC = (InizioPartitaClient) mg;
+
+                    synchronized (lock) { //per evitare che clienthandler venga modificato
+                        int lobbyIndex = trovaLobby(codiceLobby);
+
+                        if (lobbyIndex == -1) break; // lobby non trovata
+
+                        ArrayList<ClientHandler> lobby = clientHandlers.get(lobbyIndex);
+
+                        boolean giocatore1 = lobby.get(0) == this; // controlla se chi manda il messaggio e' il creatore della lobby
+                        boolean abbastaGiocatori = lobby.size() >= minGiocatori; //avvia la partita solo se c'e' il numero minimo di giocatori
+
+                        if (giocatore1 && abbastaGiocatori) {
+                            avviaPartitaDaLobby(lobbyIndex, iPC.getNTurni());
+                        } else if (!giocatore1) {
+                            codaToClient.inserisci("Solo il creatore della lobby può avviare la partita");
+                        } else {
+                            codaToClient.inserisci("Servono almeno 2 giocatori per avviare la partita");
+                        }
+                    }
+                }
+
+            } catch (InterruptedException e) {
+                closeEverything(socket);
+                break;
+            }
+        }
+    }
 	
 	public void broadcastMessage(String messageToSend) {
 		//scorre tutti i client della lobby    

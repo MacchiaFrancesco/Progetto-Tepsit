@@ -38,6 +38,8 @@ public class Partita implements Runnable {
         int turnoCorrenteGiocatore = 0;
         int nGiocatori = listaGiocatori.size();
         
+      
+        
     	InizioPartitaServer iPS= new InizioPartitaServer (nTurni);
         broadcast(iPS.toString());
         
@@ -57,9 +59,9 @@ public class Partita implements Runnable {
         	int sP[] = new int[listaGiocatori.size()];
         	int sT[] = new int[listaGiocatori.size()];
         	int i = 0;
-        	for (Giocatore g : listaGiocatori) {
-                sP[i] = g.getPunteggioPartita();
-                sT[i] = g.getPunteggioTurno();
+        	for (Giocatore g1 : listaGiocatori) {
+                sP[i] = g1.getPunteggioPartita();
+                sT[i] = g1.getPunteggioTurno();
                 i++;
             }
         	i=0;
@@ -69,6 +71,7 @@ public class Partita implements Runnable {
         	AnnuncioTurno aT = new AnnuncioTurno(turnoCorrenteGiocatore);
     		broadcast(aT.toString());
     		Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore); 
+    		  
         	while(!frase.completata()) {
         		ClientMessage msg = null;
 				try {
@@ -152,7 +155,7 @@ public class Partita implements Runnable {
 	                		AnnuncioFrase aF3 = new AnnuncioFrase(frase.getFraseOriginale()); //manda frase completa a tutti
 	                		broadcast(aF3.toString());
 	                		
-	                		
+	                		numeroTurniCorrente++;
 	                	}else { //frase sbagliata
 	                		
 	                		SoluzioneCorretta sC = new SoluzioneCorretta(false, g.getPunteggioTurno());

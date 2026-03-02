@@ -2,31 +2,37 @@ package ruota.server.Messaggi;
 
 public class VincitoreFinale implements ServerMessage {
 
-	private static int id = 106;
-	private int idGiocatore;
-	private String nome;
-	private int soldi;
+    private static int id = 106;
+    private int idGiocatore;
+    private String nome;
+    private int soldi;
 
-	public VincitoreFinale(int idGiocatore, String nome, int soldi) {
-		this.idGiocatore = idGiocatore;
-		this.nome = nome;
-		this.soldi = soldi;
-	}
+    public VincitoreFinale(int idGiocatore, String nome, int soldi) {
+        this.idGiocatore = idGiocatore;
+        this.nome = nome;
+        this.soldi = soldi;
+    }
 
-	public int getIdGiocatore() {
-		return idGiocatore;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public int getIdGiocatore() {
+        return idGiocatore;
+    }
 
-	public int getSoldi() {
-		return soldi;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+idGiocatore+";"+nome+";"+soldi;
-		return messaggio;
-	}
+    public int getSoldi() {
+        return soldi;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + idGiocatore + ";" + nome + ";" + soldi;
+        return messaggio;
+    }
 }

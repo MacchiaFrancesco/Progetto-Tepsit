@@ -1,7 +1,8 @@
 package ruota.client.Messaggi;
 
 public class InizioPartita implements ClientMessage {
-    private static int id = 003;
+
+    private static int id = 3;
     private int nTurni;
 
     public InizioPartita(int nTurni) {
@@ -13,13 +14,12 @@ public class InizioPartita implements ClientMessage {
     }
 
     @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
     public String toString() {
         return id + ";" + nTurni;
     }
-
-//	@Override
-//	public int getId() {
-//		// TODO Auto-generated method stub
-//		return id;
-//	}
 }

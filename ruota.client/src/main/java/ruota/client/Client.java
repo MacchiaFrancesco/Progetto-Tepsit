@@ -69,8 +69,6 @@ public class Client {
 		ClientMessage login =  new LoginGiocatore(username, lobbyCode);
 		inviaMsg(login.toString());
 		
-		giraRuota();
-		
 		String msg = prelevaMsg();
 		ServerMessage mess = ClientParser.parse(msg);
 		RisultatoRuota rR = (RisultatoRuota) mess;

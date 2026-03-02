@@ -1,20 +1,26 @@
 package ruota.server.Messaggi;
 
-public class RisultatoRuota implements ServerMessage{
+public class RisultatoRuota implements ServerMessage {
 
-	private static int id = 021;
-	private int risultato;
+    private static int id = 21;
+    private int risultato;
 
-	public RisultatoRuota(int risultato) {
-		this.risultato = risultato;
-	}
+    public RisultatoRuota(int risultato) {
+        this.risultato = risultato;
+    }
 
-	public int getRisultato() {
-		return risultato;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+risultato;
-		return messaggio;
-	}
+    public int getRisultato() {
+        return risultato;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + risultato;
+        return messaggio;
+    }
 }

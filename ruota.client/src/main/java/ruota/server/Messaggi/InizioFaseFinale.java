@@ -1,26 +1,32 @@
 package ruota.server.Messaggi;
 
-public class InizioFaseFinale implements ServerMessage{
+public class InizioFaseFinale implements ServerMessage {
 
-	private static int id = 100;
-	private int idVincitore;
-	private int soldi;
+    private static int id = 100;
+    private int idVincitore;
+    private int soldi;
 
-	public InizioFaseFinale(int idVincitore, int soldi) {
-		this.idVincitore = idVincitore;
-		this.soldi = soldi;
-	}
+    public InizioFaseFinale(int idVincitore, int soldi) {
+        this.idVincitore = idVincitore;
+        this.soldi = soldi;
+    }
 
-	public int getIdVincitore() {
-		return idVincitore;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public int getSoldi() {
-		return soldi;
-	}
+    public int getIdVincitore() {
+        return idVincitore;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+idVincitore+";"+soldi;
-		return messaggio;
-	}
+    public int getSoldi() {
+        return soldi;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + idVincitore + ";" + soldi;
+        return messaggio;
+    }
 }

@@ -2,7 +2,7 @@ package ruota.client.Messaggi;
 
 public class PassoTurno implements ClientMessage {
 
-    private static String id = "050";
+    private static String id = "50";
 
     public PassoTurno() {
     }

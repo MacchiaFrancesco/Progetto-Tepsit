@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class InizioTurno implements ServerMessage {
 
-    private static String id = "010";
+    private static String id = "10";
     private String frase;
     private String contesto;
 

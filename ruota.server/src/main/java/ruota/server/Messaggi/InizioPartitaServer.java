@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class InizioPartitaServer implements ServerMessage {
 
-    private static String id = "004";
+    private static String id = "4";
     private int nTurni;
 
     public InizioPartitaServer(int nTurni) {

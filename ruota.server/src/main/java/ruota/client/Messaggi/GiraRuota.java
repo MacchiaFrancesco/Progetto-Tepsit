@@ -2,7 +2,7 @@ package ruota.client.Messaggi;
 
 public class GiraRuota implements ClientMessage {
 
-    private static String id = "020";
+    private static String id = "20";
 
     public GiraRuota() {
     }

@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class StatoGiocatore implements ServerMessage {
 
-    private static String id = "011";
+    private static String id = "11";
     private int nPlayer;
     private int[] idGiocatori;
     private int[] salvadanaioGiocatori;

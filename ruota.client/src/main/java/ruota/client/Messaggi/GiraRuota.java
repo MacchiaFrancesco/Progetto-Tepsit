@@ -1,20 +1,18 @@
 package ruota.client.Messaggi;
 
-public class GiraRuota implements ClientMessage{
+public class GiraRuota implements ClientMessage {
 
-	private static String id = "020";
-	
-	public GiraRuota() {
-		
-	}
-	
-	public String toString() {
-		return id;
-	}
+    private static String id = "20";
 
-//	@Override
-//	public String getId() {
-//		// TODO Auto-generated method stub
-//		return id;
-//	}
+    public GiraRuota() {
+    }
+
+    @Override
+    public int getId() {
+        return 20;
+    }
+
+    public String toString() {
+        return id;
+    }
 }

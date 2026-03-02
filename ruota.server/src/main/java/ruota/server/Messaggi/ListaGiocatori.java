@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class ListaGiocatori implements ServerMessage {
 
-    private static String id = "002";
+    private static String id = "2";
     private int nPlayer;
     private String[] nomePlayer;
 

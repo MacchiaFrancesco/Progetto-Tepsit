@@ -2,40 +2,46 @@ package ruota.server.Messaggi;
 
 public class FineRound implements ServerMessage {
 
-	private static int id = 052;
-	private int round;
-	private int roundTot;
-	private int numeroGiocatori;
-	private int[] classifica;
+    private static int id = 52;
+    private int round;
+    private int roundTot;
+    private int numeroGiocatori;
+    private int[] classifica;
 
-	public FineRound(int round, int roundTot, int numeroGiocatori, int[]classifica) {
-		this.round = round;
-		this.roundTot = roundTot;
-		this.classifica = classifica;
-		this.numeroGiocatori = numeroGiocatori;
-	}
+    public FineRound(int round, int roundTot, int numeroGiocatori, int[] classifica) {
+        this.round = round;
+        this.roundTot = roundTot;
+        this.classifica = classifica;
+        this.numeroGiocatori = numeroGiocatori;
+    }
 
-	public int getRound() {
-		return round;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	public int getRoundTot() {
-		return roundTot;
-	}
+    public int getRound() {
+        return round;
+    }
 
-	public int getNumeroGiocatori() {
-		return numeroGiocatori;
-	}
+    public int getRoundTot() {
+        return roundTot;
+    }
 
-	public int[] getClassifica() {
-		return classifica;
-	}
+    public int getNumeroGiocatori() {
+        return numeroGiocatori;
+    }
 
-	public String tostring() {
-		String messaggio = id+";"+round+";"+roundTot+";"+numeroGiocatori;
-		for (int i = 0; i < classifica.length; i++) {
-			messaggio += ";"+(i+1)+";"+classifica[i];
-		}
-		return messaggio;
-	}
+    public int[] getClassifica() {
+        return classifica;
+    }
+
+    @Override
+    public String toString() {
+        String messaggio = id + ";" + round + ";" + roundTot + ";" + numeroGiocatori;
+        for (int i = 0; i < classifica.length; i++) {
+            messaggio += ";" + (i + 1) + ";" + classifica[i];
+        }
+        return messaggio;
+    }
 }

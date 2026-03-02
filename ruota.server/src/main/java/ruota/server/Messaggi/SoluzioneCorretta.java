@@ -2,7 +2,7 @@ package ruota.server.Messaggi;
 
 public class SoluzioneCorretta implements ServerMessage {
 
-    private static int id = 041;
+    private static int id = 41;
     private boolean esito;
     private int soldi;
 
