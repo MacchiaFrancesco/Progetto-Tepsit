@@ -1,4 +1,5 @@
 package ruota.server;
+import ruota.client.Messaggi.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -24,9 +25,12 @@ public class ClientHandler implements Runnable{
 	        this.codaToClient = codaToClient;
 	        this.codaFromClient = codaFromClient;
 	        this.clientUsername = codaFromClient.preleva();
-	        ClientMessage login = ServerParser.parse(codaFromClient.preleva()); // riceve il codice lobby
-	        this.clientUsername = login.getUsername();
-	        this.codiceLobby = login.getLobbyCode();
+	        ClientMessage msg = ServerParser.parse(codaFromClient.preleva());
+			if (msg instanceof LoginGiocatore) { //usare instanceof per evitare class cast exception 
+			    LoginGiocatore login = (LoginGiocatore) msg;
+			    this.clientUsername = login.getNome();
+			    this.codiceLobby = String.valueOf(login.getCodice());
+			}
 
 	        synchronized(lock) {
 	            int lobbyIndex = trovaLobby(codiceLobby);
@@ -94,7 +98,7 @@ public class ClientHandler implements Runnable{
     
     
 	@Override
-	public void run() { //qua andrebbe messo il message parser, se il giocatore invia messaggio di creare una lobby crea un nuovo 'array', altrimenti se si vuole aggiungere ad una lobby lo aggiunge ad un array gia' esistente (probabilmente conviene fare una matrice di array list) a quel punto se il giocatore 1 di quella lobby invia il messaggio di inizio il server prende tutti i giocatori di quell'array e li invia alla classe Partita. ora per provare metto che c'e' una sola lobby, poi implementiamo. 
+	public void run() {
 		String messageFromClient;
 		
 		while (socket.isConnected()) {
