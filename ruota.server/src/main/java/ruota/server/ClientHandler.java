@@ -96,7 +96,7 @@ public class ClientHandler implements Runnable{
 	}
 	
 	
-	public void avviaPartitaDaLobby(int lobbyId, int nTurni) { //little lenzi controlla
+	public void avviaPartitaDaLobby(int lobbyId, int nTurni) { //<---------little lenzi controlla
 	    synchronized(lock) {
 	        ArrayList<ClientHandler> lobby = clientHandlers.get(lobbyId);
 	        
