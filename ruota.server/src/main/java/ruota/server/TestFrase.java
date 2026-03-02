@@ -1,6 +1,6 @@
 package ruota.server;
 
-public class TestFrase {
+public class TestFrase { //usato per testare classe frase
     public static void main(String[] args) {
     	
     	System.out.println("Cartella corrente: " + System.getProperty("user.dir"));

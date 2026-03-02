@@ -80,6 +80,7 @@ public class Partita implements Runnable {
 				Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore);
         		switch (msg.getId()) {
 
+
 	                case 20: // Girare la ruota
 	                    risRuota = ruota.giraRuota();
 	                    if (risRuota == -1) { //passaturno
@@ -175,6 +176,7 @@ public class Partita implements Runnable {
         		}
         		
         	}
+            
         }
     }
 
@@ -201,6 +203,10 @@ public class Partita implements Runnable {
         }
     }
 
+    public void setListaGiocatori(ArrayList<Giocatore> listaGiocatori){
+    	this.listaGiocatori=listaGiocatori;
+    }
+    
     // Mostra la classifica finale
     private void mostraClassifica() {
         broadcast("=== CLASSIFICA FINALE ===");
