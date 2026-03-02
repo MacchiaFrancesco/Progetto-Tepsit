@@ -31,7 +31,7 @@ public class Partita implements Runnable {
         broadcast(iPS.tostring());
     	
         AnnuncioFrase aF=new AnnuncioFrase(frase.getFraseAttuale());
-        broadcast(aF.tostring());
+        broadcast(aF.toString());
 
         int indiceTurno = 0;
 
@@ -39,7 +39,7 @@ public class Partita implements Runnable {
 
             Giocatore giocatoreCorrente = listaGiocatori.get(indiceTurno);
             AnnuncioTurno aT=new AnnuncioTurno(indiceTurno);
-            sendToPlayer(giocatoreCorrente, aT.tostring());
+            sendToPlayer(giocatoreCorrente, aT.toString());
 
             int valoreRuota = ruota.giraRuota();
             RisultatoRuota rR=new RisultatoRuota(valoreRuota);
@@ -47,9 +47,9 @@ public class Partita implements Runnable {
 
             // BANCAROTTA
             if (valoreRuota == -1) {
-                Bancarotta b=new Bancarotta (indiceTurno, giocatoreCorrente.getPunteggio());
+                Bancarotta b=new Bancarotta (indiceTurno, giocatoreCorrente.getPunteggioTurno());
                 giocatoreCorrente.resetPunteggio();
-                broadcast(b.tostring());
+                broadcast(b.toString());
                 indiceTurno = (indiceTurno + 1) % listaGiocatori.size();
                 continue;
             }
@@ -79,7 +79,7 @@ public class Partita implements Runnable {
             }
 
             input = input.trim().toUpperCase();
-            int punti;
+            int punti = 0;
 
             // Se il giocatore prova una lettera
             if (input.length() == 1 && Character.isLetter(input.charAt(0))) {
@@ -147,7 +147,7 @@ public class Partita implements Runnable {
     private void mostraClassifica() {
         broadcast("=== CLASSIFICA FINALE ===");
         for (Giocatore g : listaGiocatori) {
-            broadcast(g.getUsername() + " - " + g.getPunteggio());
+            broadcast(g.getUsername() + " - " + g.getPunteggioTurno());
         }
     }
 }
