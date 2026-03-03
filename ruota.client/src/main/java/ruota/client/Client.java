@@ -65,7 +65,7 @@ public class Client {
 		System.out.println(prelevaMsg());
 	}
 	
-	public void testgioca() throws InterruptedException {
+	public void testgioca() throws InterruptedException { //test gioca non serve
 		ClientMessage login =  new LoginGiocatore(username, lobbyCode);
 		inviaMsg(login.toString());
 		
