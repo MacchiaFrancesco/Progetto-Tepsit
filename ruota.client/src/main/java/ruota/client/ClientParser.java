@@ -8,11 +8,11 @@ public class ClientParser {
         ServerMessage messaggioDaServer = null;
 
         switch(Integer.parseInt(ps[0])) { //il campo in posizione 0 e' l'id del messaggio
-            case 001:
+            case 01:
                 messaggioDaServer = new ConfermaLogin(Integer.parseInt(ps[1]), Boolean.parseBoolean(ps[2]));
                 break;
 
-            case 002:
+            case 02:
                 String[] lista = new String[Integer.parseInt(ps[1])];
                 for (int i = 0; i < Integer.parseInt(ps[1]); i++) {
                     lista[i] = ps[i+2]; //2 e' l'offset per raggiungere i nomi
@@ -20,15 +20,15 @@ public class ClientParser {
                 messaggioDaServer = new ListaGiocatori(Integer.parseInt(ps[1]), lista);
                 break;
 
-            case 004:
+            case 04:
                 messaggioDaServer = new InizioPartita(Integer.parseInt(ps[1]));
                 break;
 
-            case 010:
+            case 10:
                 messaggioDaServer = new InizioTurno(ps[1], ps[2]);
                 break;
 
-            case 011:
+            case 11:
                 int nGiocatori = Integer.parseInt(ps[1]);
                 int[] idGiocatori = new int[nGiocatori];
                 int[] salvadanaioGiocatori = new int[nGiocatori];
@@ -42,38 +42,38 @@ public class ClientParser {
                 messaggioDaServer = new StatoGiocatore(nGiocatori, idGiocatori, salvadanaioGiocatori, soldiTurnoGiocatori);
                 break;
 
-            case 012:
+            case 12:
                 messaggioDaServer = new TimerTurno(Integer.parseInt(ps[1]));
                 break;
 
-            case 015:
+            case 15:
                 messaggioDaServer = new AnnuncioTurno(Integer.parseInt(ps[1]));
                 break;
 
-            case 021:
+            case 21:
                 messaggioDaServer = new RisultatoRuota(Integer.parseInt(ps[1]));
                 break;
 
-            case 033:
+            case 33:
             	boolean bool1 = ps[2].equals("1"); //se a e 1 equals() restituisce true se a e 0 restituisce false
             	
                 messaggioDaServer = new EsitoLettera(ps[1], bool1, Integer.parseInt(ps[3]), ps[4], Integer.parseInt(ps[5]));
                 break;
 
-            case 041:
+            case 41:
             	boolean bool2 = ps[1].equals("1");
                 messaggioDaServer = new SoluzioneCorretta(bool2, Integer.parseInt(ps[2]));
                 break;
 
-            case 042:
+            case 42:
                 messaggioDaServer = new AnnuncioFrase(ps[1]);
                 break;
 
-            case 051:
+            case 51:
                 messaggioDaServer = new CambioTurno(Integer.parseInt(ps[1]));
                 break;
 
-            case 052:
+            case 52:
             	int[] soldiGiocatore = new int[Integer.parseInt(ps[3])];
             	 for (int i = 0; i < Integer.parseInt(ps[3]); i++) { //i vari campi hanno un offset di 2 tra di loro quindi lo aggiungo per ogni iterazione
             		 soldiGiocatore[i] = Integer.parseInt(ps[5+(i*2)]);

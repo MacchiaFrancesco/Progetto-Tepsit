@@ -8,27 +8,27 @@ public class ServerParser {
         ClientMessage messaggioDaClient = null;
 
         switch(Integer.parseInt(ps[0])) {
-            case 000:
+            case 00:
                 messaggioDaClient = new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
                 break;
 
-            case 003:
+            case 03:
                 messaggioDaClient = new InizioPartita(Integer.parseInt(ps[1]));
                 break;
 
-            case 020:
+            case 20:
                 messaggioDaClient = new GiraRuota();
                 break;
 
-            case 030:
+            case 30:
                 messaggioDaClient = new LetteraIndovinata(ps[1]);
                 break;
 
-            case 040:
+            case 40:
                 messaggioDaClient = new SoluzioneFrase(ps[1]);
                 break;
 
-            case 050:
+            case 50:
                 messaggioDaClient = new PassoTurno();
                 break;
 
