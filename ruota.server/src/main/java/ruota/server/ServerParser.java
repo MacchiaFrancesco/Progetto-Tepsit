@@ -12,7 +12,7 @@ public class ServerParser {
                 messaggioDaClient = new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
                 break;
 
-            case 03:
+            case 3:
                 messaggioDaClient = new InizioPartita(Integer.parseInt(ps[1]));
                 break;
 
