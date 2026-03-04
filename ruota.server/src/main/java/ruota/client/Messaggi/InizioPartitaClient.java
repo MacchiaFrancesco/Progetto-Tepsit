@@ -17,7 +17,7 @@ public class InizioPartitaClient implements ClientMessage {
         return Integer.parseInt(id);
     }
 
-    public String tostring() {
+    public String toString() {
         String messaggio = id + ";" + nTurni;
         return messaggio;
     }

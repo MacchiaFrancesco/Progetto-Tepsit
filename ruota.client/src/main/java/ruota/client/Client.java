@@ -65,7 +65,7 @@ public class Client {
 		System.out.println(prelevaMsg());
 	}
 	
-	public void testgioca() throws InterruptedException {
+	public void testgioca() throws InterruptedException { //test gioca non serve
 		ClientMessage login =  new LoginGiocatore(username, lobbyCode);
 		inviaMsg(login.toString());
 		
@@ -338,15 +338,75 @@ public class Client {
 	    }
 	}
 	
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Inserisci il tuo username: ");
-		String username = scanner.nextLine();
-		System.out.print("Inserisci il codice della lobby, se non esiste una lobby con quel codice, ne verra' creata una utilizzando il codice inserito: ");
-		int lobbyCode = scanner.nextInt();
-		Socket socket = new Socket(indirizzoServer, port);
-		Client client = new Client(socket, username, lobbyCode);
-		client.testgioca();
+	public static void main(String[] args) throws Exception {
+	    Scanner scanner = new Scanner(System.in);
+
+	    System.out.print("Inserisci il tuo username: ");
+	    String username = scanner.nextLine();
+
+	    System.out.print("Inserisci il codice della lobby, se non esiste ne verra' creata una: ");
+	    int lobbyCode = scanner.nextInt();
+	    scanner.nextLine(); // pulizia buffer
+
+	    Socket socket = new Socket(indirizzoServer, port);
+	    Client client = new Client(socket, username, lobbyCode);
+
+	    // 1️⃣ INVIO LOGIN
+	    ClientMessage login = new LoginGiocatore(username, lobbyCode);
+	    client.inviaMsg(login.toString());
+
+	    // 2️⃣ ATTESA CONFERMA LOGIN
+	    String risposta = client.prelevaMsg();
+	    ServerMessage mess = ClientParser.parse(risposta);
+
+	    if (!(mess instanceof ConfermaLogin)) {
+	        System.out.println("Errore: risposta non valida dal server.");
+	        socket.close();
+	        return;
+	    }
+
+	    ConfermaLogin conferma = (ConfermaLogin) mess;
+
+	    if (!conferma.isEsito()) {
+	        System.out.println("Login rifiutato: lobby piena o errore.");
+	        socket.close();
+	        return;
+	    }
+
+	    System.out.println("Login effettuato. Sei nella lobby: " + conferma.getIdAss());
+
+	    // 3️⃣ SE SONO L'HOST (primo giocatore della lobby)
+	    // Il server identifica il creatore come il client con idAss = 0
+	    if (conferma.getIdAss() == 0) {
+	        System.out.print("Vuoi avviare la partita? (s/n): ");
+	        String scelta = scanner.nextLine();
+	        if (scelta.equalsIgnoreCase("s")) {
+	            System.out.print("Numero turni: ");
+	            int turni = scanner.nextInt();
+	            scanner.nextLine();
+
+	            ClientMessage inizio = new InizioPartitaClient(turni);
+	            client.inviaMsg(inizio.toString());
+	        }
+	    } else {
+	        System.out.println("Sei un partecipante, attendi l'avvio della partita dall'host.");
+	    }
+
+	    // 4️⃣ CICLO DI RICEZIONE MESSAGGI DAL SERVER (opzionale)
+	    while (true) {
+	        String msgServer = client.prelevaMsg();
+	        ServerMessage sm = ClientParser.parse(msgServer);
+
+	        if (sm instanceof InizioPartitaServer) {
+	            System.out.println("La partita è iniziata!");
+	            // qui puoi iniziare la logica del gioco
+	        } else if (sm instanceof ListaGiocatori) {
+	            // gestisci lista giocatori
+	        } else if (sm instanceof RisultatoRuota) {
+	            // gestisci risultato ruota
+	        }
+	        // aggiungi altri messaggi server se vuoi
+	    }
 	}
 
 }
