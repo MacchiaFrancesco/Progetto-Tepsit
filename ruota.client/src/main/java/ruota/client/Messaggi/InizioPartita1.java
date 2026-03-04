@@ -1,11 +1,11 @@
 package ruota.client.Messaggi;
 
-public class InizioPartita implements ClientMessage {
+public class InizioPartita1 implements ClientMessage {
 
     private static int id = 3;
     private int nTurni;
 
-    public InizioPartita(int nTurni) {
+    public InizioPartita1(int nTurni) {
         this.nTurni = nTurni;
     }
 
