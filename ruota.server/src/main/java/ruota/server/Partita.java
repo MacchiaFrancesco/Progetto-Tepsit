@@ -34,18 +34,17 @@ public class Partita implements Runnable {
 
     
     public void run(){
+    	System.out.println("THREAD PARTITA PARTITO");
     	int numeroTurniCorrente = 0;
         int turnoCorrenteGiocatore = 0;
         int nGiocatori = listaGiocatori.size();
-        
-      
         
     	InizioPartitaServer iPS= new InizioPartitaServer (nTurni);
         broadcast(iPS.toString());
         
         
-        AnnuncioFrase aF=new AnnuncioFrase(frase.getFraseAttuale());
-        broadcast(aF.toString());
+//        AnnuncioFrase aF=new AnnuncioFrase(frase.getFraseAttuale());
+//        broadcast(aF.toString());
 
         while (!partitaFinita && numeroTurniCorrente < nTurni) {
         	Frase frase = new Frase();
@@ -87,12 +86,12 @@ public class Partita implements Runnable {
 	                case 20: // Girare la ruota
 	                    risRuota = ruota.giraRuota();
 	                    if (risRuota == -1) { //passaturno
-	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
 	                    }else if (risRuota == -2) { //bancarotta
 	                    	//Giocatore gi = listaGiocatori.get(turnoCorrenteGiocatore); // prende l'istanze del giocatore corrente
 	                    	g.resetPunteggioPartita();
 	                    	g.resetPunteggio();
-	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
 	                    }
 	                    
 	                    RisultatoRuota rR = new RisultatoRuota(risRuota);
@@ -136,7 +135,7 @@ public class Partita implements Runnable {
 	                			
 	                			EsitoLettera eL = new EsitoLettera(l, o, occorrenze, frase.getFraseAttuale(), 0);
 	                			broadcast(eL.toString());
-	                			turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3; //passa al giocatore successivo
+	                			turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size(); //passa al giocatore successivo
 	                		}
 	        			}
 	                    break;
@@ -161,7 +160,7 @@ public class Partita implements Runnable {
 	                		SoluzioneCorretta sC = new SoluzioneCorretta(false, g.getPunteggioTurno());
 	                		broadcast(sC.toString());
 	                		
-	                		turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                		turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
 	                	}
 	                    break;
 	

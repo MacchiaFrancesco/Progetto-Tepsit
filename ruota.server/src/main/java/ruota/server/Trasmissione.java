@@ -26,7 +26,7 @@ public class Trasmissione implements Runnable{
 
 	public void inviaSuSocket() throws InterruptedException{
 		String messaggio = coda.preleva();
-		writer.write(messaggio);
+		writer.println(messaggio);
 //			bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
 //			bufferedWriter.flush();
 		

@@ -38,21 +38,22 @@ public class ClientHandler implements Runnable {
                 int lobbyIndex = trovaLobby(codiceLobby);
 
                 if (lobbyIndex == -1) {
-                    // crea nuova lobby
                     ArrayList<ClientHandler> nuovaLobby = new ArrayList<>();
                     nuovaLobby.add(this);
                     clientHandlers.add(nuovaLobby);
-                    idClient = clientHandlers.size() - 1;
+                    idClient = 0; // primo giocatore della lobby = host
                 } else {
-                    // unisciti alla lobby esistente
                     clientHandlers.get(lobbyIndex).add(this);
-                    idClient = lobbyIndex;
+                    idClient = clientHandlers.get(lobbyIndex).size() - 1; // indice dentro la lobby
                 }
+
+                ConfermaLogin cL = new ConfermaLogin(idClient, true);
             }
 
             // Conferma login
             ConfermaLogin cL = new ConfermaLogin(idClient, true);
             codaToClient.inserisci(cL.toString());
+            
 
         } catch (InterruptedException e) {
             closeEverything(socket);
@@ -73,7 +74,10 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (socket.isConnected()) {
             try {
-                ClientMessage mg = ServerParser.parse(codaFromClient.preleva());
+                String raw = codaFromClient.preleva();
+                System.out.println("SERVER HA RICEVUTO: " + raw);
+
+                ClientMessage mg = ServerParser.parse(raw);
 
                 if (mg instanceof InizioPartitaClient) {
                     InizioPartitaClient iPC = (InizioPartitaClient) mg;
@@ -121,8 +125,9 @@ public class ClientHandler implements Runnable {
             }
 
             clientHandlers.remove(lobbyId);
-
+            
             new Thread(p).start();
+            System.out.println("PARTITA AVVIATA con " + lobby.size() + " giocatori");
         }
     }
 

@@ -45,8 +45,7 @@ public class Client {
 	
 	public void inviaMessaggio(int idMsg) throws InterruptedException {
 		String messaggio = null;
-		
-		
+	
 		codaTrasmissione.inserisci(messaggio); 
 	}
 	
@@ -338,6 +337,8 @@ public class Client {
 	    }
 	}
 	
+	
+	//tartamella non si e' degnato di togliere le emoji di chat gpt
 	public static void main(String[] args) throws Exception {
 	    Scanner scanner = new Scanner(System.in);
 
@@ -354,6 +355,7 @@ public class Client {
 	    // 1️⃣ INVIO LOGIN
 	    ClientMessage login = new LoginGiocatore(username, lobbyCode);
 	    client.inviaMsg(login.toString());
+	    System.out.println("CLIENT HA INVIATO: " + login.toString());
 
 	    // 2️⃣ ATTESA CONFERMA LOGIN
 	    String risposta = client.prelevaMsg();
@@ -387,26 +389,37 @@ public class Client {
 
 	            ClientMessage inizio = new InizioPartitaClient(turni);
 	            client.inviaMsg(inizio.toString());
+	            System.out.println("CLIENT HA INVIATO: " + inizio.toString());
 	        }
 	    } else {
 	        System.out.println("Sei un partecipante, attendi l'avvio della partita dall'host.");
 	    }
 
-	    // 4️⃣ CICLO DI RICEZIONE MESSAGGI DAL SERVER (opzionale)
 	    while (true) {
 	        String msgServer = client.prelevaMsg();
 	        ServerMessage sm = ClientParser.parse(msgServer);
 
-	        if (sm instanceof InizioPartitaServer) {
-	            System.out.println("La partita è iniziata!");
-	            // qui puoi iniziare la logica del gioco
-	        } else if (sm instanceof ListaGiocatori) {
-	            // gestisci lista giocatori
-	        } else if (sm instanceof RisultatoRuota) {
-	            // gestisci risultato ruota
+	        if (sm.getId() == 4) { // InizioPartita
+	            
+	        	InizioPartitaServer ip = (InizioPartitaServer) sm;
+	            System.out.println("La partita è iniziata! Turni: " + ip.getNTurni());
+	            
+	            break; // esci dal loop di attesa
+	        } else if (sm.getId() == 2) { // ListaGiocatori (arriva mentre si aspetta in lobby)
+	            
+	        	ListaGiocatori lg = (ListaGiocatori) sm;
+	            System.out.println("Giocatori in lobby (" + lg.getNPlayer() + "):");
+	            
+	            for (int i = 0; i < lg.getNPlayer(); i++) {
+	                System.out.println("- " + lg.getNomePlayer()[i]);
+	            }
+	        }else {
+	        	System.out.println("Client pre partita: Mesaggio non riconosciuto");
 	        }
-	        // aggiungi altri messaggi server se vuoi
+	        
 	    }
+
+	    client.gestisciPartita();
 	}
 
 }

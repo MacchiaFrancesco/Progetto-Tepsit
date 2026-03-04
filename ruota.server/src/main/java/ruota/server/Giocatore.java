@@ -9,13 +9,13 @@ public class Giocatore {
     private CodaCircolare codaRicezione;
     private CodaCircolare codaTrasmissione;
     
-    public Giocatore(String username, CodaCircolare codaTrasmissione, CodaCircolare codaRicezione) { //Trasmissione trasmissione
+    public Giocatore(String username, CodaCircolare codaRicezione, CodaCircolare codaTrasmissione) { //Trasmissione trasmissione
         this.username = username;
         this.codaRicezione = codaRicezione;
         this.codaTrasmissione = codaTrasmissione;
         //this.trasmissione = trasmissione;
         this.punteggioPartita = 0;
-        this.punteggioPartita=0;
+        this.punteggioTurno=0;
     }
 
     //Username

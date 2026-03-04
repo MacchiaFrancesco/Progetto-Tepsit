@@ -4,16 +4,17 @@ import ruota.client.Messaggi.*;
 public class ServerParser {
 
     public static ClientMessage parse(String s) {
-        String[] ps = s.split(";");
+    	System.out.println("Parsing messaggio: " + s);
+    	String[] ps = s.split(";");
         ClientMessage messaggioDaClient = null;
 
         switch(Integer.parseInt(ps[0])) {
-            case 00:
+            case 0:
                 messaggioDaClient = new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
                 break;
 
             case 3:
-                messaggioDaClient = new InizioPartita(Integer.parseInt(ps[1]));
+                messaggioDaClient = new InizioPartitaClient(Integer.parseInt(ps[1]));
                 break;
 
             case 20:

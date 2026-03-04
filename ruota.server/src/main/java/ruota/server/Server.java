@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import ruota.server.Messaggi.ServerMessage;
+
 public class Server {
 	
 	private ServerSocket serverSocket;  //ascolta per connessioni in arrivo e client e crea un oggetto Socket per comunicare con loro
@@ -37,6 +39,16 @@ public class Server {
 				ClientHandler clientHandler = new ClientHandler(socket, codaToClient, codaFromClient);
 				Thread client = new Thread(clientHandler);
 				client.start();
+				
+//				// 2️⃣ ATTESA CONFERMA LOGIN
+//			    String risposta = client.prelevaMsg();
+//			    ServerMessage mess = ClientParser.parse(risposta);
+				
+				//invia ai client il successo o l'insuccesso dell login
+				
+				
+				
+
 			}
 		} catch(IOException e) {
 			closeServerSocket();

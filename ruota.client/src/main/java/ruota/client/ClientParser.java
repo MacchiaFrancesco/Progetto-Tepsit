@@ -21,7 +21,7 @@ public class ClientParser {
                 break;
 
             case 04:
-                messaggioDaServer = new InizioPartita(Integer.parseInt(ps[1]));
+                messaggioDaServer = new InizioPartitaServer(Integer.parseInt(ps[1]));
                 break;
 
             case 10:
