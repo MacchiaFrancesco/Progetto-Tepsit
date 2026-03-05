@@ -5,13 +5,13 @@ public class ServerParser {
 
 	public static ClientMessage parse(String s) {
 		s = s.trim();   // 🔥 IMPORTANTISSIMO
-	    System.out.println("Parsing messaggio: " + s);
+	    System.out.println("Server Parser: Parsing messaggio: " + s);
 
 	    try {
 
 	        String[] ps = s.split(";");
 	        int id = Integer.parseInt(ps[0]);
-	        System.out.println("ID PARSATO: " + id);
+//	        System.out.println("ID PARSATO: " + id);
 	        switch(id) {
 
 	            case 0:
@@ -21,7 +21,7 @@ public class ServerParser {
 	                return new InizioPartitaClient(Integer.parseInt(ps[1]));
 
 	            case 20:
-	            	System.out.println("case 20 entrato");
+//	            	System.out.println("case 20 entrato");
 	                return new GiraRuota();
 
 	            case 30:

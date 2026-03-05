@@ -53,21 +53,27 @@ public class ClientParser {
 
             case 21:
                 messaggioDaServer = new RisultatoRuota(Integer.parseInt(ps[1]));
+                
                 break;
 
+            case 32:
+            	boolean bool3 = ps[1].equals("1");
+            	messaggioDaServer =  new ConfermaAcquistoVocale(bool3);
+                
             case 33:
-            	boolean bool1 = ps[2].equals("1"); //se a e 1 equals() restituisce true se a e 0 restituisce false
+            	boolean bool1 = Boolean.parseBoolean(ps[2]); 
             	
                 messaggioDaServer = new EsitoLettera(ps[1], bool1, Integer.parseInt(ps[3]), ps[4], Integer.parseInt(ps[5]));
                 break;
 
-            case 41:
-            	boolean bool2 = ps[1].equals("1");
-                messaggioDaServer = new SoluzioneCorretta(bool2, Integer.parseInt(ps[2]));
-                break;
-
+           
             case 42:
                 messaggioDaServer = new AnnuncioFrase(ps[1]);
+                break;
+
+            case 43:
+            	boolean bool2 = Boolean.parseBoolean(ps[1]);
+                messaggioDaServer = new SoluzioneCorretta(bool2, Integer.parseInt(ps[2]));
                 break;
 
             case 51:
@@ -115,7 +121,7 @@ public class ClientParser {
                 break;
 
             default:
-                System.out.println("Messaggio non riconosciuto");
+                System.out.println("Messaggio non riconosciuto" + Integer.parseInt(ps[0]));
                 break;
         }
 

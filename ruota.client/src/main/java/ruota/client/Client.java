@@ -110,7 +110,7 @@ public class Client {
 
 	    Scanner scanner = new Scanner(System.in);
 
-	    while (true) {
+	    while (socket.isConnected()) {
 
 	        String msg = prelevaMsg();
 	        ServerMessage mess = ClientParser.parse(msg);
@@ -143,7 +143,7 @@ public class Client {
 	                break;
 	                
 	            case 10: //InizioTurno
-	                ruota.server.Messaggi.InizioTurno it = (ruota.server.Messaggi.InizioTurno) mess; 
+	                InizioTurno it = (InizioTurno) mess; 
 	                System.out.println("È il tuo turno!");
 	                System.out.println("Frase da indovinare: " + it.getFrase());
 	                System.out.println("Contesto: " + it.getContesto());
@@ -182,54 +182,68 @@ public class Client {
 	                break;
 
 	            case 12: //TimerMinigiochi
-	                ruota.server.Messaggi.TimerMinigiochi tm = (ruota.server.Messaggi.TimerMinigiochi) mess;
+	                TimerMinigiochi tm = (TimerMinigiochi) mess;
 	                System.out.println("Tempo rimanente per il minigioco: " + tm.getSecondi() + " secondi");
 	                break;
 	                
 	            case 13: //TimerTurno
-	                ruota.server.Messaggi.TimerTurno tt = (ruota.server.Messaggi.TimerTurno) mess;
+	                TimerTurno tt = (TimerTurno) mess;
 	                System.out.println("Tempo rimanente per il turno: " + tt.getSecondi() + " secondi");
 	                break;
 
 	            case 15: //AnnuncioTurno
-	                ruota.server.Messaggi.AnnuncioTurno at = (ruota.server.Messaggi.AnnuncioTurno) mess; 
+	                AnnuncioTurno at = (AnnuncioTurno) mess; 
 	                System.out.println("È il turno del giocatore con ID: " + at.getGiocatore());
+	                break;
+	                
+	            case 21: // Risultato ruota
+	                RisultatoRuota rR = (RisultatoRuota) mess;
+	                int risultato = rR.getRisultato();
+	                System.out.println("La ruota è stata girata!");
+
+	                if (risultato == -1) {
+	                    System.out.println("Passo turno, sta al giocatore successivo");
+	                    
+	                } else if (risultato == -2) {
+	                    System.out.println("Bancarotta! Hai perso tutto! Sta al giocatore successivo");
+	                   
+	                } else {
+	                	
+	                	System.out.println("il risultato e': "+ rR.getRisultato());
+	                 
+	                    System.out.println("Scrivi una lettera (le vocali costano 500):");
+	                    String input = scanner.nextLine();
+	                    while (input.isEmpty() || !Character.isLetter(input.charAt(0))) {
+	                        System.out.println("Input non valido, scrivi una lettera:");
+	                        input = scanner.nextLine();
+	                    }
+	                    // invio la lettera al server
+	                    indovinaLettera(String.valueOf(input.charAt(0)));
+	                    
+	                }
 	                break;
 	               
 	            case 32: //ConfermaAcquistoVocale
-	                ruota.server.Messaggi.ConfermaAcquistoVocale cav = (ruota.server.Messaggi.ConfermaAcquistoVocale) mess;
-	                if (cav.getConferma() == 1) {
+	                ConfermaAcquistoVocale cav = (ConfermaAcquistoVocale) mess;
+	                if (cav.getConferma()) {
 	                    System.out.println("Acquisto vocale confermato!");
 	                } else {
-	                    System.out.println("Acquisto vocale fallito!");
+	                    System.out.println("Acquisto vocale fallito! Sei un poveraccio!");
 	                }
 	                break;
 
 	            case 33: //EsitoLettera
-	                ruota.server.Messaggi.EsitoLettera el = (ruota.server.Messaggi.EsitoLettera) mess;
+	                EsitoLettera el = (EsitoLettera) mess;
 
 	                if (el.isPresente()) {
 	                    System.out.println("La lettera '" + el.getLettera() + "' è presente " + el.getVolte() + " volte!");
 	                    System.out.println("Frase parziale: " + el.getFraseParziale());
 	                    System.out.println("Soldi guadagnati: " + el.getSoldiGuadagnati());
-	                } else {
-	                    System.out.println("La lettera '" + el.getLettera() + "' non è presente.");
-	                }
-	                break;
-
-	            case 41: //DareSoluzioneFrase
-	                ruota.server.Messaggi.DareSoluzioneFrase dsf = (ruota.server.Messaggi.DareSoluzioneFrase) mess;
-	                System.out.println("Un giocatore ha tentato di risolvere la frase: " + dsf.getSoluzione());
-	                break;
-	 
-	            case 42: //AnnuncioFrase
-	            	 ruota.server.Messaggi.AnnuncioFrase af = (ruota.server.Messaggi.AnnuncioFrase) mess;
-	            	    System.out.println("Frase da indovinare: " + af.getFrase());
-
-	            	    System.out.println("1 - Gira Ruota");
-	            	    System.out.println("2 - Indovina Lettera");
-	            	    System.out.println("3 - Indovina Frase");
-	            	    System.out.println("4 - Passa");
+	                    
+	                    System.out.println("Cosa vuoi fare adesso?");
+	                    System.out.println("1 - Gira Ruota");
+	            	    System.out.println("2 - Indovina Frase");
+	            	    System.out.println("3 - Passa");
 
 	            	    scelta = scanner.nextInt();
 	            	    scanner.nextLine();
@@ -239,39 +253,48 @@ public class Client {
 	            	            giraRuota();
 	            	            break;
 	            	        case 2:
-	            	            System.out.print("Lettera: ");
-	            	            String lettera = scanner.nextLine();
-	            	            indovinaLettera(lettera);
-	            	            break;
+	            	        	System.out.print("Frase: ");
+		                        String frase = scanner.nextLine();
+		                        dareSoluzioneFrase(frase);
+		                        break;
 	            	        case 3:
-	            	            System.out.print("Frase: ");
-	            	            String frase = scanner.nextLine();
-	            	            dareSoluzioneFrase(frase);
-	            	            break;
-	            	        case 4:
 	            	            passa();
 	            	            break;
 	            	    }
+	                } else {
+	                    System.out.println("La lettera '" + el.getLettera() + "' non è presente. Il turno passa al giocatore successivo");
+	                }
+	                break;
+
+	            case 41: //DareSoluzioneFrase
+	                DareSoluzioneFrase dsf = (DareSoluzioneFrase) mess;
+	                System.out.println("Un giocatore ha tentato di risolvere la frase: " + dsf.getSoluzione());
+	                break;
+	 
+	            case 42: //AnnuncioFrase
+	            	 AnnuncioFrase af = (AnnuncioFrase) mess;
+	            	    System.out.println("Frase da indovinare: " + af.getFrase());
+
 	                break;
 	                
 	            case 43: //SoluzioneCorretta
-	            	  ruota.server.Messaggi.SoluzioneCorretta sc = (ruota.server.Messaggi.SoluzioneCorretta) mess;
+	            	  SoluzioneCorretta sc = (SoluzioneCorretta) mess;
 
 	            	    if (sc.isEsito()) {
 	            	        System.out.println("La frase è stata indovinata correttamente!");
 	            	        System.out.println("Soldi guadagnati: " + sc.getSoldi());
 	            	    } else {
-	            	        System.out.println("Tentativo fallito.");
+	            	        System.out.println("Tentativo fallito. La frase e' sbagliata");
 	            	    }
 	                break;
 
 	            case 51: //CambioTurno
-	                ruota.server.Messaggi.CambioTurno ct = (ruota.server.Messaggi.CambioTurno) mess;
+	                CambioTurno ct = (CambioTurno) mess;
 	                System.out.println("Il turno passa al giocatore con ID: " + ct.getNuovoGiocatore());
 	                break;
 
 	            case 52: //FineRound
-	            	ruota.server.Messaggi.FineRound fr = (ruota.server.Messaggi.FineRound) mess;
+	            	FineRound fr = (FineRound) mess;
 
 	                System.out.println("Round " + fr.getRound() + " di " + fr.getRoundTot() + " concluso!");
 	                System.out.println("Classifica parziale:");
@@ -281,32 +304,32 @@ public class Client {
 	                break;
 
 	            case 100: //InizioFaseFinale
-	            	ruota.server.Messaggi.InizioFaseFinale iff = (ruota.server.Messaggi.InizioFaseFinale) mess;
+	            	InizioFaseFinale iff = (InizioFaseFinale) mess;
 	                System.out.println("La fase finale è iniziata!");
 	                System.out.println("ID vincitore: " + iff.getIdVincitore());
 	                System.out.println("Soldi totali del vincitore: " + iff.getSoldi());
 	                break;
 
 	            case 102: //InizioMinigioco
-	            	ruota.server.Messaggi.InizioMinigioco im = (ruota.server.Messaggi.InizioMinigioco) mess;
+	            	InizioMinigioco im = (InizioMinigioco) mess;
 	                System.out.println("È iniziato il minigioco numero: " + im.getNGioco());
 	                break;
 
 	            case 105: //PremioFinale
-	                ruota.server.Messaggi.PremioFinale pf = (ruota.server.Messaggi.PremioFinale) mess;
+	                PremioFinale pf = (PremioFinale) mess;
 	                System.out.println("Premio finale estratto: " + pf.getImportoBusta());
 	                System.out.println("Soldi vinti: " + pf.getSoldiVinti());
 	                break;
 
 	            case 106: //VincitoreFinale
-	            	ruota.server.Messaggi.VincitoreFinale vf = (ruota.server.Messaggi.VincitoreFinale) mess;
+	            	VincitoreFinale vf = (VincitoreFinale) mess;
 	                System.out.println("La partita è conclusa!");
 	                System.out.println("Vincitore: " + vf.getNome() + " (ID: " + vf.getIdGiocatore() + ")");
 	                System.out.println("Soldi totali vinti: " + vf.getSoldi());
 	                break;
 
 	            case 901: //DisconnessioneGiocatore
-	                ruota.server.Messaggi.DisconnessioneGiocatore dg = (ruota.server.Messaggi.DisconnessioneGiocatore) mess;
+	                DisconnessioneGiocatore dg = (DisconnessioneGiocatore) mess;
 	                System.out.println("Il giocatore " + dg.getNome() + " (ID: " + dg.getIdGiocatore() + ") si è disconnesso.");
 	                break;
 
@@ -315,17 +338,17 @@ public class Client {
 	                break;
 
 	            case 903: //ControlloConnessione
-	                ruota.server.Messaggi.ControlloConnessione cc = (ruota.server.Messaggi.ControlloConnessione) mess;
+	                ControlloConnessione cc = (ControlloConnessione) mess;
 	                System.out.println("Messaggio di controllo connessione ricevuto. Timestamp: " + cc.getTimestamp());
 	                break;
 
 	            case 904: //Bancarotta
-	            	ruota.server.Messaggi.Bancarotta b = (ruota.server.Messaggi.Bancarotta) mess;
+	            	Bancarotta b = (Bancarotta) mess;
 	                System.out.println("Il giocatore con ID " + b.getIdGiocatore() + " ha perso tutti i soldi del turno: " + b.getSoldiPersi());
 	                return;
 
 	            default:
-	                System.out.println("ID sconosciuto: " + mess.getId());
+	                System.out.println("Client: ID sconosciuto: " + mess.getId());
 	        }
 	    }
 	}

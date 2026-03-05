@@ -3,9 +3,9 @@ package ruota.server.Messaggi;
 public class ConfermaAcquistoVocale implements ServerMessage {
 
     private static int id = 32;
-    private int conferma;
+    private Boolean conferma;
 
-    public ConfermaAcquistoVocale(int conferma) {
+    public ConfermaAcquistoVocale(Boolean conferma) {
         this.conferma = conferma;
     }
 
@@ -14,7 +14,7 @@ public class ConfermaAcquistoVocale implements ServerMessage {
         return id;
     }
 
-    public int getConferma() {
+    public Boolean getConferma() {
         return conferma;
     }
 

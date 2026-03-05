@@ -46,8 +46,6 @@ public class ClientHandler implements Runnable {
                     clientHandlers.get(lobbyIndex).add(this);
                     idClient = clientHandlers.get(lobbyIndex).size() - 1; // indice dentro la lobby
                 }
-
-                ConfermaLogin cL = new ConfermaLogin(idClient, true);
             }
 
             // Conferma login
@@ -99,10 +97,6 @@ public class ClientHandler implements Runnable {
 
                         if (host && abbastanzaGiocatori) {
                             avviaPartitaDaLobby(lobbyIndex, iPC.getNTurni());
-                        } else if (!host) {
-                            codaToClient.inserisci("Solo il creatore della lobby può avviare la partita");
-                        } else {
-                            codaToClient.inserisci("Servono almeno " + minGiocatori + " giocatori per avviare la partita");
                         }
                     }
                 }

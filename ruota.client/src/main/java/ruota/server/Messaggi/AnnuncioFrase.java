@@ -20,6 +20,6 @@ public class AnnuncioFrase implements ServerMessage {
 
     @Override
     public String toString() {
-        return id + ";" + ServerMessage.aggAsterischi(frase, 52);
+        return id + ";" + frase;
     }
 }

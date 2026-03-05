@@ -28,7 +28,7 @@ public class ListaGiocatori implements ServerMessage {
     public String toString() {
         String messaggio = id;
         for (int i = 0; i < nPlayer; i++) {
-            messaggio += ";" + ServerMessage.aggAsterischi(nomePlayer[i], 20);
+            messaggio += ";" + nomePlayer[i];
         }
         return messaggio;
     }

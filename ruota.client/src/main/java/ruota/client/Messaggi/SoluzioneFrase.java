@@ -20,6 +20,6 @@ public class SoluzioneFrase implements ClientMessage {
 
     @Override
     public String toString() {
-        return id + ";" + ClientMessage.aggAsterischi(frase, 52);
+        return id + ";" + frase;
     }
 }

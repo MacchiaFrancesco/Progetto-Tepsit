@@ -26,7 +26,7 @@ public class InizioTurno implements ServerMessage {
 
     @Override
     public String toString() {
-        String messaggio = id + ";" + ServerMessage.aggAsterischi(frase, 52) + ";" + ServerMessage.aggAsterischi(contesto, 30);
+        String messaggio = id + ";" + frase + ";" + contesto;
         return messaggio;
     }
 }

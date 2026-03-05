@@ -2,7 +2,7 @@ package ruota.client.Messaggi;
 
 public class LetteraIndovinata implements ClientMessage {
 
-    private static int id = 32;
+    private static int id = 30;
     private String lettera;
 
     public LetteraIndovinata(String lettera) {
