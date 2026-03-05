@@ -1,7 +1,5 @@
 package ruota.client;
-import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import ruota.client.Messaggi.*;
@@ -15,6 +13,9 @@ public class Client {
 	private String username;
 	private int lobbyCode;
 	private Socket socket;
+	
+	private int mioId;
+	private int idGiocatoreCorrente = -1;
 	
 	private static String indirizzoServer = "127.0.0.1";
 	private static int port = 5656;
@@ -122,6 +123,7 @@ public class Client {
 	            	 
 	            	    if (cl.isEsito()) {
 	            	        System.out.println("Login effettuato con successo! ID assegnato: " + cl.getIdAss());
+	            	        this.mioId = cl.getIdAss();
 	            	    } else {
 	            	        System.out.println("Login fallito!");
 	            	    }
@@ -194,6 +196,7 @@ public class Client {
 	            case 15: //AnnuncioTurno
 	                AnnuncioTurno at = (AnnuncioTurno) mess; 
 	                System.out.println("È il turno del giocatore con ID: " + at.getGiocatore());
+	                idGiocatoreCorrente = at.getGiocatore();
 	                break;
 	                
 	            case 21: // Risultato ruota
@@ -211,15 +214,16 @@ public class Client {
 	                	
 	                	System.out.println("il risultato e': "+ rR.getRisultato());
 	                 
-	                    System.out.println("Scrivi una lettera (le vocali costano 500):");
-	                    String input = scanner.nextLine();
-	                    while (input.isEmpty() || !Character.isLetter(input.charAt(0))) {
-	                        System.out.println("Input non valido, scrivi una lettera:");
-	                        input = scanner.nextLine();
-	                    }
-	                    // invio la lettera al server
-	                    indovinaLettera(String.valueOf(input.charAt(0)));
-	                    
+	                	if (mioId == idGiocatoreCorrente) { 
+		                	System.out.println("Scrivi una lettera (le vocali costano 500):");
+		                    String input = scanner.nextLine();
+		                    while (input.isEmpty() || !Character.isLetter(input.charAt(0))) {
+		                        System.out.println("Input non valido, scrivi una lettera:");
+		                        input = scanner.nextLine();
+		                    }
+		                    // invio la lettera al server
+		                    indovinaLettera(String.valueOf(input.charAt(0)));
+	                	}
 	                }
 	                break;
 	               
@@ -238,12 +242,14 @@ public class Client {
 	                if (el.isPresente()) {
 	                    System.out.println("La lettera '" + el.getLettera() + "' è presente " + el.getVolte() + " volte!");
 	                    System.out.println("Frase parziale: " + el.getFraseParziale());
-	                    System.out.println("Soldi guadagnati: " + el.getSoldiGuadagnati());
+	                    System.out.println("Soldi guadagnati dal giocatore: " + el.getSoldiGuadagnati());
 	                    
-	                    System.out.println("Cosa vuoi fare adesso?");
-	                    System.out.println("1 - Gira Ruota");
-	            	    System.out.println("2 - Indovina Frase");
-	            	    System.out.println("3 - Passa");
+	                    if (mioId == idGiocatoreCorrente) { 
+		                    System.out.println("Cosa vuoi fare adesso?");
+		                    System.out.println("1 - Gira Ruota");
+		            	    System.out.println("2 - Indovina Frase");
+		            	    System.out.println("3 - Passa");
+	                    }
 
 	            	    scelta = scanner.nextInt();
 	            	    scanner.nextLine();

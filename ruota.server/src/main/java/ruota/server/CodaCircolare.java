@@ -36,4 +36,13 @@ public class CodaCircolare {
 	    notifyAll();
 	    return messaggio;
 	}
+	
+	//Svuotare la coda
+	public synchronized void clear() {
+	    head = 0;
+	    tail = 0;
+	    count = 0;
+	    
+	    notifyAll();
+}	
 }

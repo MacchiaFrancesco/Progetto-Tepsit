@@ -4,7 +4,7 @@ import ruota.server.Messaggi.*;
 public class ClientParser {
 
     public static ServerMessage parse(String s) {
-    	System.out.println("CLIENT RICEVE: " + s);
+//    	System.out.println("CLIENT RICEVE: " + s);
         String[] ps = s.split(";");
         ServerMessage messaggioDaServer = null;
 

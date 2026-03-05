@@ -72,7 +72,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (socket.isConnected()) {
             try {
-            	 // fatto da tartamella se la partita è iniziata NON leggere più dalla coda :-D
+            	 // fatto da -> Tartamella <- se la partita è iniziata NON leggere più dalla coda :D
                 if (partita != null) {
                     Thread.sleep(50);
                     continue;
@@ -127,7 +127,7 @@ public class ClientHandler implements Runnable {
             clientHandlers.remove(lobbyId);
             
             new Thread(p).start();
-            System.out.println("PARTITA AVVIATA con " + lobby.size() + " giocatori");
+            System.out.println("PARTITA "+ lobbyId +" AVVIATA con " + lobby.size() + " giocatori");
         }
     }
 
@@ -159,7 +159,7 @@ public class ClientHandler implements Runnable {
                 clientHandlers.remove(idClient);
             }
         }
-        broadcastMessage("Server: " + clientUsername + " si e' disconnesso dalla partita");
+//        broadcastMessage("Server: " + clientUsername + " si e' disconnesso dalla partita");
     }
 
     public void closeEverything(Socket socket) {
@@ -177,9 +177,9 @@ public class ClientHandler implements Runnable {
             if (lobbyId >= 0 && lobbyId < clientHandlers.size()) {
                 clientHandlers.get(lobbyId).add(this);
                 idClient = lobbyId;
-                broadcastMessage("Server: " + clientUsername + " si è unito alla lobby " + idClient);
+//                broadcastMessage("Server: " + clientUsername + " si è unito alla lobby " + idClient);
             } else {
-                codaToClient.inserisci("Lobby non esistente");
+//                codaToClient.inserisci("Lobby non esistente");
             }
         }
     }
