@@ -34,6 +34,6 @@ public class LoginGiocatore implements ClientMessage {
 
     @Override
     public String toString() {
-        return id + ";" + aggAsterischi(nome, 20) + ";" + codice;
+        return id + ";" + nome + ";" + codice;
     }
 }

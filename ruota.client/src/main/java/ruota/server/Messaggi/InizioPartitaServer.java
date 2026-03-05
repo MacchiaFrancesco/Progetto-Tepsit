@@ -20,7 +20,7 @@ public class InizioPartitaServer implements ServerMessage {
 
     @Override
     public String toString() {
-        String messaggio = id + ";" + nTurni;
+        String messaggio = Integer.parseInt(id) + ";" + nTurni;
         return messaggio;
     }
 }

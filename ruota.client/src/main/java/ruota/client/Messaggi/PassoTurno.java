@@ -12,8 +12,9 @@ public class PassoTurno implements ClientMessage {
         return Integer.parseInt(id);
     }
 
-    public String tostring() {
-        String messaggio = id;
-        return messaggio;
+    @Override
+    public String toString() {
+       
+        return "50";
     }
 }

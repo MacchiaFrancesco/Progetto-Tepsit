@@ -12,7 +12,8 @@ public class GiraRuotaMeraviglie implements ClientMessage {
         return Integer.parseInt(id);
     }
 
-    public String tostring() {
+    @Override
+    public String toString() {
         return id;
     }
 }

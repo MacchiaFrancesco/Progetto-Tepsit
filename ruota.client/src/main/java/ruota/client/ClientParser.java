@@ -4,15 +4,16 @@ import ruota.server.Messaggi.*;
 public class ClientParser {
 
     public static ServerMessage parse(String s) {
+    	System.out.println("CLIENT RICEVE: " + s);
         String[] ps = s.split(";");
         ServerMessage messaggioDaServer = null;
 
         switch(Integer.parseInt(ps[0])) { //il campo in posizione 0 e' l'id del messaggio
-            case 01:
+            case 1:
                 messaggioDaServer = new ConfermaLogin(Integer.parseInt(ps[1]), Boolean.parseBoolean(ps[2]));
                 break;
 
-            case 02:
+            case 2:
                 String[] lista = new String[Integer.parseInt(ps[1])];
                 for (int i = 0; i < Integer.parseInt(ps[1]); i++) {
                     lista[i] = ps[i+2]; //2 e' l'offset per raggiungere i nomi
@@ -20,7 +21,7 @@ public class ClientParser {
                 messaggioDaServer = new ListaGiocatori(Integer.parseInt(ps[1]), lista);
                 break;
 
-            case 04:
+            case 4:
                 messaggioDaServer = new InizioPartitaServer(Integer.parseInt(ps[1]));
                 break;
 

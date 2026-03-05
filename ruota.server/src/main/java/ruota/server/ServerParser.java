@@ -3,58 +3,55 @@ import ruota.client.Messaggi.*;
 
 public class ServerParser {
 
-    public static ClientMessage parse(String s) {
-    	System.out.println("Parsing messaggio: " + s);
-    	String[] ps = s.split(";");
-        ClientMessage messaggioDaClient = null;
+	public static ClientMessage parse(String s) {
+		s = s.trim();   // 🔥 IMPORTANTISSIMO
+	    System.out.println("Parsing messaggio: " + s);
 
-        switch(Integer.parseInt(ps[0])) {
-            case 0:
-                messaggioDaClient = new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
-                break;
+	    try {
 
-            case 3:
-                messaggioDaClient = new InizioPartitaClient(Integer.parseInt(ps[1]));
-                break;
+	        String[] ps = s.split(";");
+	        int id = Integer.parseInt(ps[0]);
+	        System.out.println("ID PARSATO: " + id);
+	        switch(id) {
 
-            case 20:
-                messaggioDaClient = new GiraRuota();
-                break;
+	            case 0:
+	                return new LoginGiocatore(ps[1], Integer.parseInt(ps[2]));
 
-            case 30:
-                messaggioDaClient = new LetteraIndovinata(ps[1]);
-                break;
+	            case 3:
+	                return new InizioPartitaClient(Integer.parseInt(ps[1]));
 
-            case 40:
-                messaggioDaClient = new SoluzioneFrase(ps[1]);
-                break;
+	            case 20:
+	            	System.out.println("case 20 entrato");
+	                return new GiraRuota();
 
-            case 50:
-                messaggioDaClient = new PassoTurno();
-                break;
+	            case 30:
+	                return new LetteraIndovinata(ps[1]);
 
-            case 101:
-                messaggioDaClient = new GiraRuotaMeraviglie();
-                break;
+	            case 40:
+	                return new SoluzioneFrase(ps[1]);
 
-            case 104:
-                messaggioDaClient = new SelezioneBusta(Integer.parseInt(ps[1]));
-                break;
+	            case 50:
+	                return new PassoTurno();
 
-            case 903:
-                //messaggioDaClient = new ControlloConnessione(Long.parseLong(ps[1]));
-                break;
+	            case 101:
+	                return new GiraRuotaMeraviglie();
 
-            case 999:
-                //messaggioDaClient = new Test();
-            	System.out.println("Server Parser: il test ha avuto successo");
-                break;
+	            case 104:
+	                return new SelezioneBusta(Integer.parseInt(ps[1]));
 
-            default:
-                System.out.println("Server Parser: Messaggio non riconosciuto " + s);
-                break;
-        }
+	            default:
+	                System.out.println("Messaggio non riconosciuto: " + s);
+	                return null;
+	        }
+	        
+	       
 
-        return messaggioDaClient;
-    }
+	    } catch(Exception e) {
+
+	        System.out.println("ERRORE PARSING MESSAGGIO: " + s);
+	        return null;
+
+	    }
+	}
+    
 }

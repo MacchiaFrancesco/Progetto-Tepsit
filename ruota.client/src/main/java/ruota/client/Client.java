@@ -150,35 +150,28 @@ public class Client {
 
 	                // menu giocatore
 	                System.out.println("1 - Gira Ruota");
-	                System.out.println("2 - Indovina Lettera");
-	                System.out.println("3 - Indovina Frase");
-	                System.out.println("4 - Passa");
+	                System.out.println("2 - Indovina Frase");
+	                System.out.println("3 - Passa");
 	                
 	                int scelta = scanner.nextInt();
 	                scanner.nextLine();
-
 	                switch (scelta) {
 	                    case 1:
 	                        giraRuota();
 	                        break;
 	                    case 2:
-	                        System.out.print("Lettera: ");
-	                        String lettera = scanner.nextLine();
-	                        indovinaLettera(lettera);
-	                        break;
-	                    case 3:
 	                        System.out.print("Frase: ");
 	                        String frase = scanner.nextLine();
 	                        dareSoluzioneFrase(frase);
 	                        break;
-	                    case 4:
+	                    case 3:
 	                        passa();
 	                        break;
 	                }
 	                break;
 
 	            case 11: //StatoGiocatore
-	                ruota.server.Messaggi.StatoGiocatore sg = (ruota.server.Messaggi.StatoGiocatore) mess; 
+	                StatoGiocatore sg = (StatoGiocatore) mess; 
 
 	                System.out.println("Stato dei giocatori:");
 	                for (int i = 0; i < sg.getNPlayer(); i++) {

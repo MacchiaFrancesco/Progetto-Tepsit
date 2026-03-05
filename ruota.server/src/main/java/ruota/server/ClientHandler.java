@@ -74,6 +74,12 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (socket.isConnected()) {
             try {
+            	 // fatto da tartamella se la partita è iniziata NON leggere più dalla coda :-D
+                if (partita != null) {
+                    Thread.sleep(50);
+                    continue;
+                }
+                
                 String raw = codaFromClient.preleva();
                 System.out.println("SERVER HA RICEVUTO: " + raw);
 

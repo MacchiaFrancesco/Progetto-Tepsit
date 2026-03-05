@@ -48,8 +48,11 @@ public class Partita implements Runnable {
 
         while (!partitaFinita && numeroTurniCorrente < nTurni) {
         	Frase frase = new Frase();
-        	InizioTurno iT = new InizioTurno(frase.getFraseAttuale(), frase.getTema());
-        	broadcast(iT.toString());
+        	
+        	AnnuncioTurno aT = new AnnuncioTurno(turnoCorrenteGiocatore);
+    		broadcast(aT.toString());
+    		
+        	
         	
         	int idG[] = new int[listaGiocatori.size()];
         	for (int i = 0; i < listaGiocatori.size(); i++) {
@@ -67,23 +70,35 @@ public class Partita implements Runnable {
         	StatoGiocatore sG = new StatoGiocatore(nGiocatori, idG, sP, sT);
         	broadcast(sG.toString());
         	
-        	AnnuncioTurno aT = new AnnuncioTurno(turnoCorrenteGiocatore);
-    		broadcast(aT.toString());
-    		Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore); 
+        	
+        	
+    		 
     		  
         	while(!frase.completata()) {
+        		Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore);
+        		InizioTurno iT = new InizioTurno(frase.getFraseAttuale(), frase.getTema());
+            	sendToPlayer(g, iT.toString());
+            	
         		ClientMessage msg = null;
 				try {
+					System.out.println("SERVER aspetta input dal giocatore " + turnoCorrenteGiocatore);
 					msg = ServerParser.parse(g.getCodaRicezione().preleva());
+					if (msg == null) {
+					    System.out.println("SERVER: messaggio non riconosciuto");
+					    continue;
+					}	
+					System.out.println("MSG ID: " + msg.getId());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				System.out.println("messaggio" + msg.getId());
+					
         		switch (msg.getId()) {
 
 
 	                case 20: // Girare la ruota
+	                	 System.out.println("case entratp " );
 	                    risRuota = ruota.giraRuota();
 	                    if (risRuota == -1) { //passaturno
 	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
@@ -93,9 +108,10 @@ public class Partita implements Runnable {
 	                    	g.resetPunteggio();
 	                    	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
 	                    }
-	                    
+	                    System.out.println("ruota girata coglione " + risRuota);
 	                    RisultatoRuota rR = new RisultatoRuota(risRuota);
 	                    broadcast(rR.toString()); 
+	                    System.out.println("ruota inviata coglione " + risRuota);
 	                  
 	                    break;
 	
@@ -107,7 +123,7 @@ public class Partita implements Runnable {
 	                		
 	                		for(int z = 0; z < arrVocali.length; z++) {
 	                			
-	                			if (l.equals(arrVocali[i])) {
+	                			if (l.equals(arrVocali[z])) {
 	                				
 	                				if (g.getPunteggioTurno() < 500) {
 	                					ConfermaAcquistoVocale cAV =  new ConfermaAcquistoVocale(0);
@@ -165,7 +181,7 @@ public class Partita implements Runnable {
 	                    break;
 	
 	                case 50: // Passo turno
-	                	// turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % 3;
+	                	turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % listaGiocatori.size();
 	                	
 	                	//minigioco++
 	                    break;
