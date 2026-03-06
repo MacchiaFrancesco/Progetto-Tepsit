@@ -1,8 +1,5 @@
-# Forza-Quattro
-Gioco **Forza Quattro** multiplayer in Java con interfaccia grafica moderna.
-
-## GUI
-L'interfaccia utente è realizzata con **JavaFX**, offrendo un'esperienza di gioco reattiva e intuitiva.
+# La Ruota della Fortuna De Noartri
+Il classico gioco **la Ruota della Fortuna**, originale in Java.
 
 ---
 
@@ -10,89 +7,34 @@ L'interfaccia utente è realizzata con **JavaFX**, offrendo un'esperienza di gio
 
 ### Prerequisiti
 Assicurati di avere installato sul sistema:
-* **Java JDK/JRE 21** o superiore
-* **WiX Toolset v3.11** (solo se vuoi ricompilare l'installer MSI per Windows)
+* **Java JDK/JRE 21** o superiore;
+* **Apache Maven** installato.
 
 ---
 
 ## Client (Il Gioco)
 
-### Installazione su Windows
-1. Scarica il file MSI dalla sezione **Download**.
-2. Esegui l'installer e segui la procedura guidata.
-3. Al termine, avvia il gioco dal collegamento creato in `C:\Program Files\ForzaQuattro`.
+### Installazione su Windows🪟
+1. Scarica il file ZIP dalla sezione **Code**.
+2. Scarica il file ZIP dalla sezione Code del repository.
+3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
+4. Scrivi nella barra degli indirizzi 'cmd' e si aprirà il terminale.
+5. Scrivi come prima cosa 'mvn exec:java "-Dexec.mainClass=ruota.server.Server"' per avviare il server.
+6. E successivamente scrivi 'mvn exec:java "-Dexec.mainClass=ruota.client.Client"' per avviare i client.
 
-### Installazione su Debian/Ubuntu
-1. Scarica il file `.deb` dalla sezione **Download**.
-2. Apri il file con il gestore pacchetti o tramite terminale.
-3. Oppure installa da terminale:
-
-```bash
-sudo dpkg -i forza-quattro-client_1.0_amd64.deb
-```
-
-### Installazione Server
-1. Scarica il file `.jar` dalla sezione **Download**.
-2. Apri il terminale (CMD, PowerShell o Terminale su Linux/Mac).
-3. Esegui il comando:
-
-```bash
-java -jar forza_quattro_server-0.0.1-SNAPSHOT.jar
-```
+### Installazione su Debian/Ubuntu🐧
+1. Scarica il file ZIP dalla sezione **Code**.
+2. Scarica il file ZIP dalla sezione Code del repository.
+3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
+4. Apri un terminale nella cartella del progetto.
+  Puoi farlo in due modi:
+    -Tasto destro nella cartella → “Apri nel terminale”;
+    -oppure aprire il terminale e spostarti con cd nella cartella del progetto.
+6. Scrivi come prima cosa 'mvn exec:java -Dexec.mainClass=ruota.server.Server' per avviare il server.
+7. E successivamente scrivi 'mvn exec:java -Dexec.mainClass=ruota.client.Client' per avviare i client.
 
 ---
 
-## Esecuzione per Sviluppatori
-
-### Client (Maven)
-**Windows:**
-```bash
-mvn javafx:run -Pwindows
-```
-**Linux:**
-```bash
-mvn javafx:run -Plinux
-```
-
-### Server (Maven)
-**Windows:**
-```bash
-mvn exec:java -Pwindows
-```
-**Linux:**
-```bash
-mvn exec:java -Plinux
-```
-
----
-
-## Configurazione
-
-### Client
-- Percorso Windows: `%USERPROFILE%\.forzaquattro\config.xml`
-- Modifica l'IP del server e la porta per connetterti a server diversi.
-
-### Server
-- Percorso Windows: `%USERPROFILE%\.forzaquattro\configServer.xml`
-- Modifica la porta per consentire connessioni esterne (apri la porta nel Firewall).
-
----
-
-## Generazione Installer
-
-### Windows
-```bash
-mvn clean package jpackage:jpackage -Pwindows
-```
-Risultato: `target/dist/ForzaQuattro-1.0.msi`
-
-### Linux
-```bash
-mvn clean package jpackage:jpackage -Plinux
-```
-Risultato: pacchetto `.deb` in `target/dist/forza-quattro_1.0_amd64.deb`
-
----
 
 ## 📝 Documentazione e Manuale
 
