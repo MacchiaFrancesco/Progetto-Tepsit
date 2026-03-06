@@ -33,7 +33,7 @@ public class Server {
 				
 				CodaCircolare codaFromClient = new CodaCircolare(10);
 				Ricezione ricezione = new Ricezione(socket, codaFromClient);
-				Thread ri = new Thread(ricezione, "Ricezione");
+				Thread ri = new Thread(ricezione, "Ricezione"+ socket.getPort());
 				ri.start();
 				
 				ClientHandler clientHandler = new ClientHandler(socket, codaToClient, codaFromClient);
