@@ -13,6 +13,8 @@ Assicurati di avere installato sul sistema:
 ---
 1. Scarica il file ZIP dalla sezione **Releases**.
 
+## Per avviare:
+
 ## Server
   1. Entrare nella cartella Server
   2. Eseguire avviaServer.bat
