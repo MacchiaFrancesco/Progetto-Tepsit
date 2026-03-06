@@ -15,28 +15,12 @@ Assicurati di avere installato sul sistema:
 ## Client (Il Gioco)
 
 ### Giocare su Windows🪟
-1. Scarica il file ZIP dalla sezione **Code**.
+1. Scarica il file ZIP dalla sezione **Releases**.
 2. Estrai il file ZIP.
-3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
-4. Scrivi nella barra degli indirizzi 'cmd' e si aprirà il terminale.
-5. Scrivi come prima cosa 'mvn exec:java "-Dexec.mainClass=ruota.server.Server"' per avviare il server.
-6. E successivamente scrivi 'mvn exec:java "-Dexec.mainClass=ruota.client.Client"' per avviare i client.
-
-### Giocare su Linux-like softwares🐧
-1. Scarica il file ZIP dalla sezione **Code**.
-2. Estrai il file ZIP.
-3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
-4. Apri un terminale nella cartella del progetto.
-   Puoi farlo in due modi:
-  -Tasto destro nella cartella → “Apri nel terminale”
-  -oppure aprire il terminale e spostarti con cd nella cartella del progetto.
-6. Scrivi come prima cosa 'mvn exec:java -Dexec.mainClass=ruota.server.Server' per avviare il server.
-7. E successivamente scrivi 'mvn exec:java -Dexec.mainClass=ruota.client.Client' per avviare i client.
-
+3. Se c'e' necessita' di avviare il server
+   Aprire la cartella Server e eseguire avviaServer.bat (controllare di avere la porta 5656 aperta)
+4. Per avviare il client:
+   Entrare nella cartella Client
+   Eseguire avviaClient.bat
+   Inserire l'ip del Server a cui ci si vuole connettere
 ---
-
-
-## 📝 Documentazione
-
-- [Documentazione Ruota della Fortuna De Noartri](Documentazione_tecnica_Ruota_della_Fortuna_De_Noartri.pdf)                   
-  Approfondimenti
