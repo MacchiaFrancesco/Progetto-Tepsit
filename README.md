@@ -1,4 +1,4 @@
-# La Ruota della Fortuna De Noartri
+# La Ruota della Fortuna De Noartri©
 Il classico gioco **la Ruota della Fortuna**, originale in Java.
 
 ---
