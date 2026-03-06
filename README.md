@@ -41,5 +41,5 @@ Assicurati di avere installato sul sistema:
 - [Manuale Utenti](Manuale%20Utenti.pdf)  
   Guida completa all'utilizzo del gioco e delle funzionalità.
 
-- [Documentazione Ruota della Fortuna De Noartri](Documentazione Ruota della Fortuna De Noartri.pdf)                   
+- [Documentazione Ruota della Fortuna De Noartri](Documentazione_Ruota_della_Fortuna_De_Noartri.pdf)                   
   Approfondimenti
