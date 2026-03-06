@@ -1,6 +1,6 @@
 NEGRI
 UML tool: draw.io
-Sequence Diagram tool: marmeid.live
+Sequence Diagram tool: mermaid.live
 source code:
 sequenceDiagram
     autonumber
