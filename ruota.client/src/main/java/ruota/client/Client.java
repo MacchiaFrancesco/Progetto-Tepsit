@@ -83,7 +83,7 @@ public class Client {
 	        return;
 	    }
 
-	    System.out.println("Login effettuato. Sei nella lobby: " + lobbyCode + "\nSe il il giocatore numero: "+ conferma.getIdAss() + "\n");
+	    System.out.println("Login effettuato. Sei nella lobby: " + lobbyCode + "\nSei il giocatore numero: "+ conferma.getIdAss() + "\n");
 	    client.setMioId(conferma.getIdAss());
 	    // 3️⃣ SE SONO L'HOST (primo giocatore della lobby)
 	    // Il server identifica il creatore come il client con idAss = 0
@@ -100,7 +100,7 @@ public class Client {
 //	            System.out.println("CLIENT HA INVIATO: " + inizio.toString());
 	        }
 	    } else {
-	        System.out.println("\nSei un partecipante, attendi l'avvio della partita dall'host.\n");
+	        System.out.println("Sei un partecipante, attendi l'avvio della partita dall'host.\n");
 	    }
 
 	    while (true) {
@@ -110,7 +110,7 @@ public class Client {
 	        if (sm.getId() == 4) { // InizioPartita
 	            
 	        	InizioPartitaServer ip = (InizioPartitaServer) sm;
-	            System.out.println("La partita è iniziata! si giocherano " + ip.getNTurni() + " turni \n");
+	            System.out.println("La partita e' iniziata! si giocheranno " + ip.getNTurni() + " turni \n");
 	            
 	            break; // esci dal loop di attesa
 	        } else if (sm.getId() == 2) { // ListaGiocatori (arriva mentre si aspetta in lobby)
@@ -204,6 +204,7 @@ public class Client {
 	    while (socket.isConnected()) {
 
 	        String msg = prelevaMsg();
+	        System.out.println("Client: messaggio ricevuto : "+msg);
 	        ServerMessage mess = ClientParser.parse(msg);
 
 	        switch (mess.getId()) {
@@ -238,7 +239,7 @@ public class Client {
 	                
 	            case 10: //InizioTurno
 	                InizioTurno it = (InizioTurno) mess; 
-	                System.out.println("È il tuo turno!");
+	                System.out.println("E' il tuo turno!");
 	                System.out.println("Frase da indovinare: " + it.getFrase());
 	                System.out.println("Contesto: " + it.getContesto());
 	                System.out.println("\n");
@@ -289,7 +290,7 @@ public class Client {
 
 	            case 15: //AnnuncioTurno
 	                AnnuncioTurno at = (AnnuncioTurno) mess; 
-	                System.out.println("È il turno del giocatore con ID: " + at.getGiocatore() + "\n");
+	                System.out.println("E' il turno del giocatore con ID: " + at.getGiocatore() + "\n");
 	                
 	                idGiocatoreCorrente = at.getGiocatore();
 	                break;
@@ -336,7 +337,7 @@ public class Client {
 	                EsitoLettera el = (EsitoLettera) mess;
 
 	                if (el.isPresente()) {
-	                    System.out.println("La lettera '" + el.getLettera() + "' è presente " + el.getVolte() + " volte!");
+	                    System.out.println("La lettera '" + el.getLettera() + "' e' presente " + el.getVolte() + " volte!");
 	                    System.out.println("Frase parziale: " + el.getFraseParziale() + "\n");
 	                    System.out.println("Soldi guadagnati dal giocatore: " + el.getSoldiGuadagnati() + "\n");
 	                    
@@ -366,7 +367,7 @@ public class Client {
 
 	            	    
 	                } else {
-	                    System.out.println("La lettera '" + el.getLettera() + "' non è presente. Il turno passa al giocatore successivo\n");
+	                    System.out.println("La lettera '" + el.getLettera() + "' non e' presente. Il turno passa al giocatore successivo\n");
 	                }
 	                break;
 
@@ -385,7 +386,7 @@ public class Client {
 	            	  SoluzioneCorretta sc = (SoluzioneCorretta) mess;
 
 	            	    if (sc.isEsito()) {
-	            	        System.out.println("La frase è stata indovinata correttamente!");
+	            	        System.out.println("La frase e' stata indovinata correttamente!");
 	            	        System.out.println("Soldi guadagnati: " + sc.getSoldi() + "\n");
 	            	    } else {
 	            	        System.out.println("Tentativo fallito. La frase e' sbagliata\n");
@@ -414,14 +415,14 @@ public class Client {
 
 	            case 100: //InizioFaseFinale
 	            	InizioFaseFinale iff = (InizioFaseFinale) mess;
-	                System.out.println("La fase finale è iniziata!");
+	                System.out.println("La fase finale e' iniziata!");
 	                System.out.println("ID vincitore: " + iff.getIdVincitore());
 	                System.out.println("Soldi totali del vincitore: " + iff.getSoldi() + "\n");
 	                break;
 
 	            case 102: //InizioMinigioco
 	            	InizioMinigioco im = (InizioMinigioco) mess;
-	                System.out.println("È iniziato il minigioco numero: " + im.getNGioco() + "\n");
+	                System.out.println("e' iniziato il minigioco numero: " + im.getNGioco() + "\n");
 	                break;
 
 	            case 105: //PremioFinale
@@ -432,7 +433,7 @@ public class Client {
 
 	            case 106: //VincitoreFinale
 	            	VincitoreFinale vf = (VincitoreFinale) mess;
-	                System.out.println("La partita è conclusa!");
+	                System.out.println("La partita e' conclusa!");
 	                System.out.println("Vincitore: " + vf.getNome() + " (ID: " + vf.getIdGiocatore() + ")");
 	                System.out.println("Soldi totali vinti: " + vf.getSoldi() + "\n");
 	                break;
