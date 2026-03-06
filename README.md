@@ -18,9 +18,9 @@ Assicurati di avere installato sul sistema:
 1. Scarica il file ZIP dalla sezione **Releases**.
 2. Estrai il file ZIP.
 3. Se c'e' necessita' di avviare il server
-   Aprire la cartella Server e eseguire avviaServer.bat (controllare di avere la porta 5656 aperta)
+  . Aprire la cartella Server e eseguire avviaServer.bat (controllare di avere la porta 5656 aperta)
 4. Per avviare il client:
-   Entrare nella cartella Client
-   Eseguire avviaClient.bat
-   Inserire l'ip del Server a cui ci si vuole connettere
+  . Entrare nella cartella Client
+  . Eseguire avviaClient.bat
+  . Inserire l'ip del Server a cui ci si vuole connettere
 ---
