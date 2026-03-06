@@ -14,7 +14,7 @@ Assicurati di avere installato sul sistema:
 
 ## Client (Il Gioco)
 
-### Installazione su Windows🪟
+### Giocare su Windows🪟
 1. Scarica il file ZIP dalla sezione **Code**.
 2. Scarica il file ZIP dalla sezione Code del repository.
 3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
@@ -22,7 +22,7 @@ Assicurati di avere installato sul sistema:
 5. Scrivi come prima cosa 'mvn exec:java "-Dexec.mainClass=ruota.server.Server"' per avviare il server.
 6. E successivamente scrivi 'mvn exec:java "-Dexec.mainClass=ruota.client.Client"' per avviare i client.
 
-### Installazione su Debian/Ubuntu🐧
+### Giocare su Debian/Ubuntu🐧
 1. Scarica il file ZIP dalla sezione **Code**.
 2. Scarica il file ZIP dalla sezione Code del repository.
 3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
