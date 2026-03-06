@@ -27,7 +27,7 @@ Assicurati di avere installato sul sistema:
 2. Scarica il file ZIP dalla sezione Code del repository.
 3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
 4. Apri un terminale nella cartella del progetto.
-Puoi farlo in due modi:
+   Puoi farlo in due modi:
   -Tasto destro nella cartella → “Apri nel terminale”
   -oppure aprire il terminale e spostarti con cd nella cartella del progetto.
 6. Scrivi come prima cosa 'mvn exec:java -Dexec.mainClass=ruota.server.Server' per avviare il server.
