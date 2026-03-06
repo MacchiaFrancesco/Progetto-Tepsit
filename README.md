@@ -16,7 +16,7 @@ Assicurati di avere installato sul sistema:
 
 ### Giocare su Windows🪟
 1. Scarica il file ZIP dalla sezione **Code**.
-2. Scarica il file ZIP dalla sezione Code del repository.
+2. Estrai il file ZIP.
 3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
 4. Scrivi nella barra degli indirizzi 'cmd' e si aprirà il terminale.
 5. Scrivi come prima cosa 'mvn exec:java "-Dexec.mainClass=ruota.server.Server"' per avviare il server.
@@ -24,7 +24,7 @@ Assicurati di avere installato sul sistema:
 
 ### Giocare su Linux-like softwares🐧
 1. Scarica il file ZIP dalla sezione **Code**.
-2. Scarica il file ZIP dalla sezione Code del repository.
+2. Estrai il file ZIP.
 3. Entra nella cartella del server e/o del client che contiene **pom.xml**.
 4. Apri un terminale nella cartella del progetto.
    Puoi farlo in due modi:
