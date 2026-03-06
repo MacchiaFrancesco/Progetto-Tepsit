@@ -79,7 +79,7 @@ public class ClientHandler implements Runnable {
                 }
                 
                 String raw = codaFromClient.preleva();
-                System.out.println("SERVER HA RICEVUTO: " + raw);
+//                System.out.println("SERVER HA RICEVUTO: " + raw);
 
                 ClientMessage mg = ServerParser.parse(raw);
 

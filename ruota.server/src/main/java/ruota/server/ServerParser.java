@@ -5,7 +5,7 @@ public class ServerParser {
 
 	public static ClientMessage parse(String s) {
 		s = s.trim();   // 🔥 IMPORTANTISSIMO
-	    System.out.println("Server Parser: Parsing messaggio: " + s);
+//	    System.out.println("Server Parser: Parsing messaggio: " + s);
 
 	    try {
 
