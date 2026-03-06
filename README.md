@@ -36,10 +36,7 @@ Assicurati di avere installato sul sistema:
 ---
 
 
-## 📝 Documentazione e Manuale
-
-- [Manuale Utenti](Manuale%20Utenti.pdf)  
-  Guida completa all'utilizzo del gioco e delle funzionalità.
+## 📝 Documentazione
 
 - [Documentazione Ruota della Fortuna De Noartri](Documentazione_tecnica_Ruota_della_Fortuna_De_Noartri.pdf)                   
   Approfondimenti
