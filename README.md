@@ -41,5 +41,5 @@ Assicurati di avere installato sul sistema:
 - [Manuale Utenti](Manuale%20Utenti.pdf)  
   Guida completa all'utilizzo del gioco e delle funzionalità.
 
-- [Documentazione Forza Quattro](Documentazione-Forza-Quattro.pdf)                   
+- [Documentazione Ruota della Fortuna De Noartri](Documentazione Ruota della Fortuna De Noartri.pdf)                   
   Approfondimenti
