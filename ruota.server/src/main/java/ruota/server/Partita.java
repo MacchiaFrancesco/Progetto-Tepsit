@@ -151,9 +151,9 @@ public class Partita implements Runnable {
                     default:
                         System.out.println("SERVER: messaggio sconosciuto id=" + msg.getId());
                         break;
-                }
-            }
-        }
+                }//fine switch
+            }//fine turno
+        }//fine partita
 
         int idGiocatoreVincente = giocatoreConPiuSoldi();
         Giocatore g6 = listaGiocatori.get(idGiocatoreVincente);
