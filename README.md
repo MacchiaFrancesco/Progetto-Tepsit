@@ -11,16 +11,18 @@ Assicurati di avere installato sul sistema:
 * **Apache Maven** installato.
 
 ---
-
-## Client (Il Gioco)
-
-### Giocare 
 1. Scarica il file ZIP dalla sezione **Releases**.
-2. Estrai il file ZIP.
-3. Se c'e' necessita' di avviare il server
-4. Aprire la cartella Server e eseguire avviaServer.bat (controllare di avere la porta 5656 aperta)
-5. Per avviare il client:
-6. Entrare nella cartella Client
-7. Eseguire avviaClient.bat
-8. Inserire l'ip del Server a cui ci si vuole connettere
+
+## Server
+  1. Entrare nella cartella Server
+  2. Eseguire avviaServer.bat
+  3. Assicurarsi di avere la porta 5656 APERTA
+
+
+## Client 
+  1. Entrare nella cartella Client
+  2. Eseguire avviaClient.bat
+  3. Inserire l'ip del Server a cui ci si vuole connettere
+  4. Buon divertimento!
+
 ---
