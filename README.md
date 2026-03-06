@@ -14,7 +14,7 @@ Assicurati di avere installato sul sistema:
 
 ## Client (Il Gioco)
 
-### Giocare su Windows🪟
+### Giocare 
 1. Scarica il file ZIP dalla sezione **Releases**.
 2. Estrai il file ZIP.
 3. Se c'e' necessita' di avviare il server
