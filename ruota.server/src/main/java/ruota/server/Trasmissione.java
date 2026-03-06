@@ -28,7 +28,7 @@ public class Trasmissione implements Runnable{
 		String messaggio = coda.preleva();
 		writer.println(messaggio);
 //			bufferedWriter.newLine(); //i client utilizzano readline, quindi aspetteranno una newline prima di smettere di aspettare i messaggi .write non invia un carattere newline 
-//			bufferedWriter.flush();
+		writer.flush();	
 		
 	}
 	

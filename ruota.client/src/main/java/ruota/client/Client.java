@@ -5,6 +5,11 @@ import java.util.Scanner;
 import ruota.client.Messaggi.*;
 import ruota.server.Messaggi.*;
 
+import java.net.UnknownHostException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.io.IOException;
+
 
 public class Client {
 
@@ -53,11 +58,30 @@ public class Client {
 	    System.out.print("Inserisci il tuo username: ");
 	    String username = scanner.nextLine();
 
+	    System.out.print("Inserisci l'ip del server a cui vuoi connetterti \nSe il server e' stato avviato sulla tua macchina inserisci 0.0.0.0: ");
+	    String ip = scanner.nextLine();
+	    
+	    Socket socket = null;
+	    try {
+	        socket = new Socket(ip, port);
+	    } catch (UnknownHostException e) {
+	        System.out.println("Errore: indirizzo IP non valido o host non trovato: " + ip);
+	        return;
+	    } catch (ConnectException e) {
+	        System.out.println("Errore: connessione rifiutata. Il server e' avviato?");
+	        return;
+	    } catch (SocketTimeoutException e) {
+	        System.out.println("Errore: timeout di connessione. Il server non risponde.");
+	        return;
+	    } catch (IOException e) {
+	        System.out.println("Errore di connessione: " + e.getMessage());
+	        return;
+	    }
+	    
 	    System.out.print("Inserisci il codice della lobby, se non esiste ne verra' creata una: ");
 	    int lobbyCode = scanner.nextInt();
 	    scanner.nextLine(); // pulizia buffer
-
-	    Socket socket = new Socket(indirizzoServer, port);
+	    
 	    Client client = new Client(socket, username, lobbyCode);
 
 	    // 1️⃣ INVIO LOGIN
@@ -109,8 +133,8 @@ public class Client {
 
 	        if (sm.getId() == 4) { // InizioPartita
 	            
-	        	InizioPartitaServer ip = (InizioPartitaServer) sm;
-	            System.out.println("La partita e' iniziata! si giocheranno " + ip.getNTurni() + " turni \n");
+	        	InizioPartitaServer iP = (InizioPartitaServer) sm;
+	            System.out.println("La partita e' iniziata! si giocheranno " + iP.getNTurni() + " turni \n");
 	            
 	            break; // esci dal loop di attesa
 	        } else if (sm.getId() == 2) { // ListaGiocatori (arriva mentre si aspetta in lobby)
@@ -298,7 +322,7 @@ public class Client {
 	            case 21: // Risultato ruota
 	                RisultatoRuota rR = (RisultatoRuota) mess;
 	                int risultato = rR.getRisultato();
-	                System.out.println("DEBUG -> mioId=" + mioId + " turno=" + idGiocatoreCorrente);
+//	                System.out.println("DEBUG -> mioId=" + mioId + " turno=" + idGiocatoreCorrente);
 	                System.out.println("La ruota è stata girata!");
 
 	                if (risultato == -1) {
@@ -462,8 +486,4 @@ public class Client {
 	        }
 	    }
 	}
-	
-	
-
-
 }

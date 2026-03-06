@@ -1,4 +1,5 @@
 package ruota.server;
+
 import ruota.server.Messaggi.*;
 import ruota.client.Messaggi.*;
 
@@ -13,6 +14,12 @@ public class Partita implements Runnable {
     private String[] arrVocali = {"A", "E", "I", "O", "U"};
     private int risRuota;
 
+    int numeroTurniCorrente = 0;
+    int turnoCorrenteGiocatore = 0;
+    int nGiocatori;
+    Frase frase;
+    Giocatore g;
+
     public Partita(ArrayList<Giocatore> listaGiocatori, int nTurni) {
         this.listaGiocatori = listaGiocatori;
         this.ruota = new Ruota();
@@ -24,49 +31,34 @@ public class Partita implements Runnable {
     public void run() {
         System.out.println("THREAD PARTITA PARTITO");
 
-        int numeroTurniCorrente = 0;
-        int turnoCorrenteGiocatore = 0;
-        int nGiocatori = listaGiocatori.size();
+        this.nGiocatori = listaGiocatori.size();
 
         // Inizio partita: invio messaggio a tutti
         broadcast(new InizioPartitaServer(nTurni).toString());
 
         while (!partitaFinita && numeroTurniCorrente < nTurni) {
 
-            Frase frase = new Frase();
+            this.frase = new Frase();
 
             // Annuncio turno
-            Giocatore g = listaGiocatori.get(turnoCorrenteGiocatore);
+            this.g = listaGiocatori.get(turnoCorrenteGiocatore);
             broadcast(new AnnuncioTurno(turnoCorrenteGiocatore).toString());
 
-            
-            
-            // Inizio turno
+            // Stato giocatori
+            statoGiocatori();
+
+            // Inizio turno: solo al giocatore corrente
             sendToPlayer(g, new InizioTurno(frase.getFraseAttuale(), frase.getTema()).toString());
 
             boolean turnoFinito = false;
-            
-            
-            while (!frase.completata() && !turnoFinito) {
-            	
-            	// Stato giocatori
-                
-                int[] idG = new int[nGiocatori];
-                int[] sP = new int[nGiocatori];
-                int[] sT = new int[nGiocatori];
 
-                for (int i = 0; i < nGiocatori; i++) {
-                    Giocatore g4 = listaGiocatori.get(i);
-                    idG[i] = i;
-                    sP[i] = g4.getPunteggioPartita();
-                    sT[i] = g4.getPunteggioTurno();
-                }
-                
+            while (!frase.completata() && !turnoFinito) {
+
                 ClientMessage msg = null;
                 try {
-//                    System.out.println("SERVER aspetta input dal giocatore " + turnoCorrenteGiocatore);
-                    msg = ServerParser.parse(g.getCodaRicezione().preleva());
-
+//                	System.out.println("SERVER: aspetto messaggio da giocatore " + turnoCorrenteGiocatore);
+                	msg = ServerParser.parse(g.getCodaRicezione().preleva());
+//                	System.out.println("SERVER: ricevuto msg id=" + (msg != null ? msg.getId() : "null"));
                     if (msg == null) {
                         System.out.println("SERVER: messaggio non riconosciuto");
                         continue;
@@ -77,25 +69,22 @@ public class Partita implements Runnable {
                 }
 
                 switch (msg.getId()) {
-                    case 20: // Girare la ruota
-                    	
-                    	
-                        risRuota = ruota.giraRuota();
-                        if (risRuota == -1) { // Passa turno
-                            turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
-                            pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
-                        
-                        } else if (risRuota == -2) { // Bancarotta
-                            g.resetPunteggioPartita();
-                            g.resetPunteggio();
-                            
-                            turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
-                            pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
-                        }
-                        broadcast(new RisultatoRuota(risRuota).toString());
-                        break;
-
-                    case 30: // Lettera indovinata
+	                case 20:
+//	                	System.out.println("Partita: case 20 entrato");
+	                    risRuota = ruota.giraRuota();
+//	                    System.out.println("SERVER: ruota girata, risultato=" + risRuota + " giocatore corrente=" + turnoCorrenteGiocatore);
+	                    if (risRuota == -1) {
+	                        cambioTurnoGiocatore();
+	                    } else if (risRuota == -2) {
+	                        cambioTurnoGiocatore();
+	                    }
+	                    broadcast(new RisultatoRuota(risRuota).toString());
+//	                    System.out.println("SERVER: RisultatoRuota inviato, ora aspetto input da giocatore " + turnoCorrenteGiocatore);
+	                    break;
+	
+	                case 30:
+	                    System.out.println("SERVER: ricevuto case 30 lettera");
+	                    
                         if (msg instanceof LetteraIndovinata) {
                             LetteraIndovinata lI = (LetteraIndovinata) msg;
                             String l = lI.getLettera().toUpperCase();
@@ -114,19 +103,25 @@ public class Partita implements Runnable {
                                 int occorrenze = frase.controllaLettera(l.charAt(0));
                                 boolean presente = occorrenze > 0;
 
+                                int soldiGuadagnati = occorrenze * risRuota;
+
                                 if (presente) {
-                                    g.aggiungiPunteggioTurno(occorrenze * risRuota);
+                                    if (vocale) {
+                                        soldiGuadagnati = 0;
+                                    }
+                                    g.aggiungiPunteggioTurno(soldiGuadagnati);
                                 }
 
-                                broadcast(new EsitoLettera(l, presente, occorrenze, frase.getFraseAttuale(),
-                                        occorrenze * risRuota).toString());
+                                broadcast(new EsitoLettera(l, presente, occorrenze, frase.getFraseAttuale(), soldiGuadagnati).toString());
+                                statoGiocatori();
 
                                 if (!presente) {
-                                    turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
-                                    pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
+                                    cambioTurnoGiocatore();
+                                    statoGiocatori();
                                 }
                             }
                         }
+
                         AnnuncioFrase aF = new AnnuncioFrase(frase.getFraseAttuale());
                         broadcast(aF.toString());
                         break;
@@ -145,26 +140,68 @@ public class Partita implements Runnable {
                             numeroTurniCorrente++;
                             turnoFinito = true;
                         } else {
-                            broadcast(new SoluzioneCorretta(false, g.getPunteggioTurno()).toString());
-                            turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
-                            pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
+                            cambioTurnoGiocatore();
                         }
                         break;
 
                     case 50: // Passo turno
-                        turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
-                        pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
+                        cambioTurnoGiocatore();
                         break;
 
                     default:
                         System.out.println("SERVER: messaggio sconosciuto id=" + msg.getId());
                         break;
                 }
-            } 
-        } 
-    } 
+            }
+        }
 
-  
+        int idGiocatoreVincente = giocatoreConPiuSoldi();
+        Giocatore g6 = listaGiocatori.get(idGiocatoreVincente);
+        broadcast(new VincitoreFinale(idGiocatoreVincente, g6.getUsername(), g6.getPunteggioPartita()).toString());
+    }
+
+    private void cambioTurnoGiocatore() {
+        turnoCorrenteGiocatore = (turnoCorrenteGiocatore + 1) % nGiocatori;
+        
+        System.out.println("SERVER: cambio turno -> giocatore " + turnoCorrenteGiocatore);
+        
+//        pulisciCoda(listaGiocatori.get(turnoCorrenteGiocatore));
+        
+        broadcast(new CambioTurno(turnoCorrenteGiocatore).toString());
+        
+        statoGiocatori();
+        
+        g = listaGiocatori.get(turnoCorrenteGiocatore);
+        sendToPlayer(g, new InizioTurno(frase.getFraseAttuale(), frase.getTema()).toString());
+    }
+
+    private void statoGiocatori() {
+        int[] idG = new int[nGiocatori];
+        int[] sP = new int[nGiocatori];
+        int[] sT = new int[nGiocatori];
+
+        for (int i = 0; i < nGiocatori; i++) {
+            Giocatore g4 = listaGiocatori.get(i);
+            idG[i] = i;
+            sP[i] = g4.getPunteggioPartita();
+            sT[i] = g4.getPunteggioTurno();
+        }
+
+        broadcast(new StatoGiocatore(nGiocatori, idG, sP, sT).toString());
+    }
+
+    private int giocatoreConPiuSoldi() {
+        int idGiocatore = -1;
+        int temp = -1;
+        for (int i = 0; i < nGiocatori; i++) {
+            Giocatore g5 = listaGiocatori.get(i);
+            if (g5.getPunteggioPartita() > temp) {
+                temp = g5.getPunteggioPartita();
+                idGiocatore = i;
+            }
+        }
+        return idGiocatore;
+    }
 
     private void sendToPlayer(Giocatore g, String messaggio) {
         try {
@@ -173,7 +210,7 @@ public class Partita implements Runnable {
             e.printStackTrace();
         }
     }
-    
+
     private void pulisciCoda(Giocatore g) {
         g.getCodaRicezione().clear();
     }
@@ -183,8 +220,8 @@ public class Partita implements Runnable {
             sendToPlayer(g, messaggio);
         }
     }
-    
-    public void setListaGiocatori(ArrayList<Giocatore> listaGiocatori){
-    	this.listaGiocatori=listaGiocatori;
+
+    public void setListaGiocatori(ArrayList<Giocatore> listaGiocatori) {
+        this.listaGiocatori = listaGiocatori;
     }
 }
