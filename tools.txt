@@ -1,4 +1,3 @@
-NEGRI
 UML tool: draw.io
 Sequence Diagram tool: mermaid.live
 source code:
