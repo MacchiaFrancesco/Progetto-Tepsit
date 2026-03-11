@@ -51,7 +51,6 @@ public class Client {
 		
 	}
 	
-	//tartamella non si e' degnato di togliere le emoji di chat gpt
 	public static void main(String[] args) throws Exception {
 	    Scanner scanner = new Scanner(System.in);
 
